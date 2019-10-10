@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="admin@gmail.com" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-h0-aKF" customClass="STextField" customModule="Sbeauty" customModuleProvider="target">
+                                <rect key="frame" x="20" y="284" width="374" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hxP-Jr-e84" customClass="STextField" customModule="Sbeauty" customModuleProvider="target">
+                                <rect key="frame" x="20" y="344" width="374" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc3-rd-wZo" customClass="SButton" customModule="Sbeauty" customModuleProvider="target">
+                                <rect key="frame" x="20" y="414" width="374" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Đăng nhập"/>
+                                <connections>
+                                    <action selector="loginOnClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dZM-w6-oTk"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="hxP-Jr-e84" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Og-9f-NM9"/>
+                            <constraint firstItem="9Gl-h0-aKF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="7Zu-64-LLc"/>
+                            <constraint firstItem="nc3-rd-wZo" firstAttribute="top" secondItem="hxP-Jr-e84" secondAttribute="bottom" constant="40" id="9R6-kN-fcN"/>
+                            <constraint firstItem="9Gl-h0-aKF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="240" id="L9h-FO-Vy8"/>
+                            <constraint firstItem="hxP-Jr-e84" firstAttribute="top" secondItem="9Gl-h0-aKF" secondAttribute="bottom" constant="30" id="RTj-EC-Rxv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hxP-Jr-e84" secondAttribute="trailing" constant="20" id="Rab-Zh-ITO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nc3-rd-wZo" secondAttribute="trailing" constant="20" id="VJ1-ww-Ul2"/>
+                            <constraint firstItem="nc3-rd-wZo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZDK-Pj-ikO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9Gl-h0-aKF" secondAttribute="trailing" constant="20" id="fuJ-jO-C93"/>
+                            <constraint firstItem="9Gl-h0-aKF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gIg-u9-Qee"/>
+                            <constraint firstItem="hxP-Jr-e84" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="p85-3b-gh8"/>
+                            <constraint firstItem="nc3-rd-wZo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="wbf-U9-wcJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="emailText" destination="9Gl-h0-aKF" id="KtZ-re-Fv1"/>
+                        <outlet property="loginButton" destination="nc3-rd-wZo" id="AkU-wF-6vH"/>
+                        <outlet property="passwordText" destination="hxP-Jr-e84" id="8RV-DD-rI7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="117" y="27"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="p4g-CM-gP5">
+            <objects>
+                <viewController id="Tz7-Ky-ugu" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6K3-or-V12">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="PJ4-sh-nAe"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="tJ2-WE-gj0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ExG-UD-bAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1564" y="540"/>
+        </scene>
+        <!--Customers-->
+        <scene sceneID="j3T-Fc-eO9">
+            <objects>
+                <tableViewController id="5el-bG-ENC" customClass="CustomerTableViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1oD-da-CSn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="0r9-7k-iDh">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0r9-7k-iDh" id="4MM-0C-K63">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5el-bG-ENC" id="BkP-Nw-JZs"/>
+                            <outlet property="delegate" destination="5el-bG-ENC" id="JYw-jG-6o5"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Customers" id="Fso-Xg-OS8"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PA8-uF-xOq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1565" y="-159"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="8n7-a2-MyQ">
+            <objects>
+                <tabBarController storyboardIdentifier="MainViewController" automaticallyAdjustsScrollViewInsets="NO" id="lJd-iZ-Diz" customClass="MainViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="76I-jf-7RN">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Tz7-Ky-ugu" kind="relationship" relationship="viewControllers" id="iTA-j1-AcW"/>
+                        <segue destination="5el-bG-ENC" kind="relationship" relationship="viewControllers" id="CaC-hu-YfC"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GhC-G4-Kdo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="796" y="27"/>
+        </scene>
+    </scenes>
+</document>
