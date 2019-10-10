@@ -52,20 +52,22 @@ class ViewController: UIViewController {
         rest.httpBodyParameters.add(value: password!, forKey: "password");
         rest.makeRequest(toURL: URL(string: "http://45.77.174.252:8080/api/auth/login")!, withHttpMethod: .get) { (results) in
             if results.response?.httpStatusCode == 200{
-                if let data = results.data {
-                    DispatchQueue.main.async {
-                        self.removeSpiner();
-                    }
-                    do {
-                        let authJSON = try JSONSerialization.jsonObject(with: data, options: []);
-                        if let authObject = authJSON as? [String:Any] {
-                            
-                        }
-                    } catch {
-                        return
-                    }
-                    
-                }
+                guard let data = results.data else { return }
+                   do {
+                       let jsonRes =  try JSONSerialization.jsonObject(with: data, options: [])
+                       if let object = jsonRes as? [String : Any] {
+                           if let access_toke = object["access_token"] as? String {
+                               print(access_toke)
+                               let accessTokenUserDefault = UserDefaults.standard;
+                               accessTokenUserDefault.set(object, forKey: self.USER_LOGIN_KEY);
+                           }
+                            completion(true);
+                            return ;
+                       }
+                   } catch let parsingError {
+                       print("Error: \(parsingError)")
+                    completion(false);
+                   }
             }
            
         }
