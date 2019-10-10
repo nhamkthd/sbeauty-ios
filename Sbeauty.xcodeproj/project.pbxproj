@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21F1324D234F7B100032E513 /* RestApiDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F1324C234F7B100032E513 /* RestApiDefine.swift */; };
 		21F74C6D234F0718000C60A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C6C234F0718000C60A0 /* AppDelegate.swift */; };
 		21F74C6F234F0718000C60A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C6E234F0718000C60A0 /* ViewController.swift */; };
 		21F74C72234F0718000C60A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21F74C70234F0718000C60A0 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21F1324C234F7B100032E513 /* RestApiDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiDefine.swift; sourceTree = "<group>"; };
 		21F74C69234F0718000C60A0 /* Sbeauty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sbeauty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21F74C6C234F0718000C60A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21F74C6E234F0718000C60A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		21F74C80234F0747000C60A0 /* RestApi */ = {
 			isa = PBXGroup;
 			children = (
+				21F1324C234F7B100032E513 /* RestApiDefine.swift */,
 				21F74C81234F0763000C60A0 /* RestApiManager.swift */,
 			);
 			path = RestApi;
@@ -195,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21F1324D234F7B100032E513 /* RestApiDefine.swift in Sources */,
 				21F74C6F234F0718000C60A0 /* ViewController.swift in Sources */,
 				21F74C88234F0E8B000C60A0 /* STextField.swift in Sources */,
 				21F74C6D234F0718000C60A0 /* AppDelegate.swift in Sources */,
