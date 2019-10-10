@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+let USER_LOGIN_KEY = "USER_LOGIN_KEY";
 class ViewController: UIViewController {
     
     var rest = RestManager();
@@ -60,6 +60,7 @@ class ViewController: UIViewController {
                                print(access_toke)
                                let accessTokenUserDefault = UserDefaults.standard;
                                accessTokenUserDefault.set(object, forKey: self.USER_LOGIN_KEY);
+                               
                            }
                             completion(true);
                             return ;
