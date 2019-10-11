@@ -52,14 +52,14 @@ class ViewController: UIViewController {
         rest.httpBodyParameters.add(value: password!, forKey: "password");
         rest.makeRequest(toURL: URL(string: "http://45.77.174.252:8080/api/auth/login")!, withHttpMethod: .get) { (results) in
             if results.response?.httpStatusCode == 200{
-                if let data = results.data {
+                if let data = results.data   {
                     DispatchQueue.main.async {
                         self.removeSpiner();
                     }
                     do {
-                        let authJSON = try JSONSerialization.jsonObject(with: data, options: []);
+                        let authJSON = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                         if let authObject = authJSON as? [String:Any] {
-                            
+                            print(authObject)
                         }
                     } catch {
                         return
