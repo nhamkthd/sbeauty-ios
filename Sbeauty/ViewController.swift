@@ -7,10 +7,11 @@
 //
 
 import UIKit
-
+let USER_LOGIN_KEY = "USER_LOGIN_KEY";
 class ViewController: UIViewController {
     
     var rest = RestManager();
+    var apiDef = RestApiDefine();
     let spinerView = SpinnerViewController()
 
     @IBOutlet weak var emailText: STextField! {
@@ -50,24 +51,30 @@ class ViewController: UIViewController {
         rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type")
         rest.httpBodyParameters.add(value: email!, forKey: "email");
         rest.httpBodyParameters.add(value: password!, forKey: "password");
-        rest.makeRequest(toURL: URL(string: "http://45.77.174.252:8080/api/auth/login")!, withHttpMethod: .get) { (results) in
+        rest.makeRequest(toURL: URL(string:apiDef.getApiStringUrl(apiName: .login) )!, withHttpMethod: .post) { (results) in
             if results.response?.httpStatusCode == 200{
-                if let data = results.data   {
-                    DispatchQueue.main.async {
-                        self.removeSpiner();
-                    }
-                    do {
-                        let authJSON = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                        if let authObject = authJSON as? [String:Any] {
-                            print(authObject)
+
+                guard let data = results.data else { return }
+                do {
+                    let jsonRes =  try JSONSerialization.jsonObject(with: data, options: [])
+                    if let object = jsonRes as? [String : Any] {
+                        if let access_toke = object["access_token"] as? String {
+                            print(access_toke)
+                            let accessTokenUserDefault = UserDefaults.standard;
+                            accessTokenUserDefault.set(object, forKey: USER_LOGIN_KEY);
+                            DispatchQueue.main.async {
+                                self.removeSpiner();
+                            }
                         }
-                    } catch {
-                        return
+                        
+                        return ;
                     }
+                } catch let parsingError {
+                    print("Error: \(parsingError)")
                     
                 }
             }
-           
+            
         }
     }
 }
