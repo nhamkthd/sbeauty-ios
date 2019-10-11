@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let auth = SAuthentication();
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -21,19 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! ViewController
-         let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+        let mainViewController = storyboard.instantiateViewController(withIdentifier: "CustomersTable") as! CustomerTableViewController
         
-        let userDefault = UserDefaults.standard;
-        if (userDefault.object(forKey: "token_access") != nil){
-              let navigationController = UINavigationController.init(rootViewController: mainViewController)
-              self.window?.rootViewController = navigationController
+        //check authentication
+        let isAuth = auth.isLogged();
+        if isAuth.0 {
+            let navigationController = UINavigationController.init(rootViewController: mainViewController)
+            self.window?.rootViewController = navigationController
         }else{
-             let navigationController = UINavigationController.init(rootViewController: loginViewController)
+            let navigationController = UINavigationController.init(rootViewController: loginViewController)
             self.window?.rootViewController = navigationController
         }
-      
-      
-        
+    
         self.window?.makeKeyAndVisible()
         return true
     }
@@ -60,6 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+   
 }
 

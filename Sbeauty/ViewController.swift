@@ -7,11 +7,10 @@
 //
 
 import UIKit
-let USER_LOGIN_KEY = "USER_LOGIN_KEY";
+
 class ViewController: UIViewController {
     
-    var rest = RestManager();
-    var apiDef = RestApiDefine();
+    let authentcation = SAuthentication();
     let spinerView = SpinnerViewController()
 
     @IBOutlet weak var emailText: STextField! {
@@ -24,7 +23,11 @@ class ViewController: UIViewController {
             self.passwordText.setIcon(UIImage(named: "icons8-lock")!);
         }
     }
-    @IBOutlet weak var loginButton: SButton!
+    @IBOutlet weak var loginButton: SButton! {
+        didSet {
+            self.loginButton.buttonStyle = .pimary;
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,33 +51,15 @@ class ViewController: UIViewController {
         showSpiner();
         let email = emailText.text;
         let password = passwordText.text;
-        rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type")
-        rest.httpBodyParameters.add(value: email!, forKey: "email");
-        rest.httpBodyParameters.add(value: password!, forKey: "password");
-        rest.makeRequest(toURL: URL(string:apiDef.getApiStringUrl(apiName: .login) )!, withHttpMethod: .post) { (results) in
-            if results.response?.httpStatusCode == 200{
-
-                guard let data = results.data else { return }
-                do {
-                    let jsonRes =  try JSONSerialization.jsonObject(with: data, options: [])
-                    if let object = jsonRes as? [String : Any] {
-                        if let access_toke = object["access_token"] as? String {
-                            print(access_toke)
-                            let accessTokenUserDefault = UserDefaults.standard;
-                            accessTokenUserDefault.set(object, forKey: USER_LOGIN_KEY);
-                            DispatchQueue.main.async {
-                                self.removeSpiner();
-                            }
-                        }
-                        
-                        return ;
+        if email != "" && password != "" {
+            self.authentcation.login(email: email!, password: password! ,completion:{(result) in
+                if result{
+                    DispatchQueue.main.async {
+                        self.removeSpiner();
+                        self.shouldPerformSegue(withIdentifier: "ShowMainView", sender: sender);
                     }
-                } catch let parsingError {
-                    print("Error: \(parsingError)")
-                    
                 }
-            }
-            
+            })
         }
     }
 }

@@ -34,8 +34,10 @@ class RestApiDefine {
             return "\(_host)/api/customers/list-image";
         case .getCustomerDetail:
             return "\(_host)";
+        case .addCustomerPhotos:
+            return "\(_host)/api/customers/upload-image";
         default:
-            return ""
+            return "\(_host)";
         }
     }
 }

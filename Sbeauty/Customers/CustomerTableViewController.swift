@@ -9,38 +9,94 @@
 import UIKit
 
 class CustomerTableViewController: UITableViewController {
-
+    
+    let rest = RestManager();
+    let apiDef = RestApiDefine();
+    let auth = SAuthentication();
+    let spinerView = SpinnerViewController();
+    var customers:[Customer]?;
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getListCustomers();
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func showSpiner() {
+        self.addChild(spinerView);
+        spinerView.view.frame = self.view.frame;
+        self.view.addSubview(spinerView.view);
+        spinerView.didMove(toParent: self)
+    }
+    
+    func removeSpiner() {
+        spinerView.willMove(toParent: nil)
+        spinerView.view.removeFromSuperview();
+        spinerView.removeFromParent();
+    }
+    
+    func getListCustomers() {
+        showSpiner();
+        guard let url = URL(string: apiDef.getApiStringUrl(apiName: .getCustomers)) else {
+            return;
+        }
+        
+        rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type");
+        let isAuth = auth.isLogged();
+        if isAuth.0 {
+            rest.requestHttpHeaders.add(value: "\(isAuth.1?.token_type ?? "") \(isAuth.1?.access_token ?? "")", forKey: "Authorization")
+        }
+       
+        rest.makeRequest(toURL: url, withHttpMethod: .get, completion: {(results) in
+            if results.response?.httpStatusCode == 200 {
+                if let data = results.data{
+                    do {
+                        let decoder = JSONDecoder()
+                        let getCustomerData = try! decoder.decode(GetListCutomersData.self, from: data)
+                        self.customers = getCustomerData.data?.data;
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData();
+                            self.removeSpiner();
+                        }
+                    }
+                }
+            }
+        })
+        
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1;
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        if customers != nil {
+            return self.customers!.count;
+        }else {
+            return 0;
+        }
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerCell", for: indexPath)
+    
+       let customer:Customer = self.customers![indexPath.row]
+        cell.textLabel?.text = customer.name;
+        cell.detailTextLabel?.text = customer.phone;
+        
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -81,10 +137,14 @@ class CustomerTableViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowPhotos" {
+            let viewController:CustomerPhotoViewController = segue.destination as! CustomerPhotoViewController
+            let indexPath = self.tableView.indexPathForSelectedRow;
+            viewController.customer = self.customers![(indexPath?.row)!];
+            
+        }
+    }
 
 }

@@ -10,14 +10,20 @@ import UIKit
 
 class SButton: UIButton {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-   
-    */
+    var buttonStyle:ColorName!;
+
+    private var roundRectLayer: CAShapeLayer?
+    
     override func draw(_ rect: CGRect) {
         // Drawing code
-        self.tintColor = .white;
+        self.roundRectColor = SColor().colorWithName(name: self.buttonStyle);
+        switch self.buttonStyle {
+        case .info?, .pimary?, .success?:
+            self.tintColor = .white;
+            break;
+        default:
+            self.tintColor = SColor().colorWithName(name: .mainText);
+        }
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: roundRectCornerRadius).cgPath
         shapeLayer.fillColor = roundRectColor.cgColor
@@ -34,30 +40,10 @@ class SButton: UIButton {
     }
     
     /// Color of the background rectangle
-    public var roundRectColor: UIColor = UIColor(red:0.00, green:0.59, blue:0.90, alpha:1.0) {
+    public var roundRectColor: UIColor! {
         didSet {
             self.setNeedsLayout()
         }
-    }
-    
-    // MARK: Overrides
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        layoutRoundRectLayer()
-    }
-    
-    // MARK: Private
-    private var roundRectLayer: CAShapeLayer?
-    
-    private func layoutRoundRectLayer() {
-        if let existingLayer = roundRectLayer {
-            existingLayer.removeFromSuperlayer()
-        }
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: roundRectCornerRadius).cgPath
-        shapeLayer.fillColor = roundRectColor.cgColor
-        self.layer.insertSublayer(shapeLayer, at: 0)
-        self.roundRectLayer = shapeLayer
     }
 
 }
