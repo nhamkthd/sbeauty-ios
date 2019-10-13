@@ -107,6 +107,19 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
         }
         
     }
+    
+    @IBAction func logoutOnClick(_ sender: Any) {
+           let alert = UIAlertController(title: "Đăng xuất khỏi ứng dụng", message:nil, preferredStyle: .alert)
+
+           alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: {action in
+            if  self.auth.logout() {
+                self.performSegue(withIdentifier: "ShowLoginView", sender: self);
+            }
+           }));
+           alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
+           self.present(alert, animated: true)
+       }
 
     // MARK: - Table view data source
 

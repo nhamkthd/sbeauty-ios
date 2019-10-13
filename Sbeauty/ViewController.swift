@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     
     let authentcation = SAuthentication();
     let spinerView = SpinnerViewController()
-
+    @IBOutlet weak var errorLabel: UILabel!
+    
     @IBOutlet weak var emailText: STextField! {
         didSet{
             self.emailText.setIcon(UIImage(named: "icons8-user")!);
@@ -31,6 +32,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.errorLabel.textColor = SColor().colorWithName(name: .danger);
+        self.errorLabel.isHidden = true;
         // Do any additional setup after loading the view.
     }
     
@@ -52,15 +55,22 @@ class ViewController: UIViewController {
         let email = emailText.text;
         let password = passwordText.text;
         if email != "" && password != "" {
-            self.authentcation.login(email: email!, password: password! ,completion:{(result) in
+            self.authentcation.login(email: email!, password: password! ,completion:{(result,errMsg) in
                 if result{
                     DispatchQueue.main.async() {
                         self.removeSpiner();
                         self.performSegue(withIdentifier: "ShowMainView", sender: self)
                     }
+                }else {
+                    DispatchQueue.main.async {
+                        self.removeSpiner();
+                        self.errorLabel.isHidden = false;
+                        self.errorLabel.text = errMsg;
+                    }
                 }
             })
         }
     }
+
 }
 

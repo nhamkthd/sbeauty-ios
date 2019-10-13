@@ -12,7 +12,7 @@ class SAuthentication  {
     var rest = RestManager();
     var apiDef = RestApiDefine();
     
-    func login(email:String, password:String, completion: @escaping (_ result: Bool) -> Void) {
+    func login(email:String, password:String, completion: @escaping (_ result: Bool, _ errMsg:String?) -> Void) {
         rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type")
         rest.httpBodyParameters.add(value: email, forKey: "email");
         rest.httpBodyParameters.add(value: password, forKey: "password");
@@ -33,7 +33,7 @@ class SAuthentication  {
                                 let authData = try NSKeyedArchiver.archivedData(withRootObject: auth, requiringSecureCoding: false) as Data;
                                 accessTokenUserDefault.set(authData, forKey:Constants.AUTHENTICATION_USER_DEFAULT );
                                 accessTokenUserDefault.synchronize();
-                                completion(true)            
+                                completion(true,"success")
                             }
                             
                         }
@@ -42,16 +42,18 @@ class SAuthentication  {
                     }
                 } catch let parsingError {
                     print("Error: \(parsingError)")
-                    completion(false)
+                    completion(false," \(parsingError)");
                 }
+            } else if results.response?.httpStatusCode == 401 {
+                completion(false,"Sai email hoặc mật khẩu!");
             }
         }
     }
     
-    func logout() {
-      
-            
-        
+    func logout() -> Bool{
+        let userDefault = UserDefaults.standard;
+        userDefault.removeObject(forKey: Constants.AUTHENTICATION_USER_DEFAULT);
+        return true;
     }
     
     func isLogged() -> (Bool,Auth?) {

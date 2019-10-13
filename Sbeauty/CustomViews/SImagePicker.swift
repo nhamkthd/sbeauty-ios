@@ -42,9 +42,9 @@ open class SImagePicker: NSObject {
         }
     }
     
-    public func present(from sourceView: UIView) {
+    public func present(from sourceView: UIView, title:String?) {
         
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
         
         if let action = self.action(for: .camera, title: "Take photo") {
             alertController.addAction(action)
