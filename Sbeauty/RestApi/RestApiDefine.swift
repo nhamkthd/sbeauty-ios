@@ -10,7 +10,7 @@ import Foundation
 
 class RestApiDefine {
     
-    let _host = "http://45.77.174.252:8080";
+     let _host = "http://45.77.174.252:8080";
     
     enum AppApiName: String {
         case login
@@ -19,6 +19,7 @@ class RestApiDefine {
         case getCustomerDetail
         case getCustomerPhotos
         case addCustomerPhotos
+        case addCustomerProfilePicture
         
     }
 
@@ -36,8 +37,8 @@ class RestApiDefine {
             return "\(_host)";
         case .addCustomerPhotos:
             return "\(_host)/api/customers/upload-image";
-        default:
-            return "\(_host)";
+        case .addCustomerProfilePicture:
+            return "\(_host)/api/customers/";
         }
     }
 }

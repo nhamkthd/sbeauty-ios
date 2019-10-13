@@ -41,6 +41,7 @@ struct Customer: Codable {
     var deleted_at:String?
     var created_at:String?
     var updated_at:String?
+    var avatar:String?
     var notes:[Note] = [];
 }
 struct Note: Codable{

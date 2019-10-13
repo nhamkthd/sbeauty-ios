@@ -17,7 +17,7 @@ class SAuthentication  {
         rest.httpBodyParameters.add(value: email, forKey: "email");
         rest.httpBodyParameters.add(value: password, forKey: "password");
         rest.makeRequest(toURL: URL(string:apiDef.getApiStringUrl(apiName: .login) )!, withHttpMethod: .post) { (results) in
-            if results.response?.httpStatusCode == 200{
+            if results.response?.httpStatusCode == 200 {
                 
                 guard let data = results.data else { return }
                 do {

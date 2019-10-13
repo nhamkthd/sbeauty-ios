@@ -54,9 +54,9 @@ class ViewController: UIViewController {
         if email != "" && password != "" {
             self.authentcation.login(email: email!, password: password! ,completion:{(result) in
                 if result{
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async() {
                         self.removeSpiner();
-                        self.shouldPerformSegue(withIdentifier: "ShowMainView", sender: sender);
+                        self.performSegue(withIdentifier: "ShowMainView", sender: self)
                     }
                 }
             })

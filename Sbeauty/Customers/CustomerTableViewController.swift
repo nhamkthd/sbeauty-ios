@@ -8,23 +8,37 @@
 
 import UIKit
 
-class CustomerTableViewController: UITableViewController {
+class CustomerTableViewController: UITableViewController, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating  {
     
     let rest = RestManager();
     let apiDef = RestApiDefine();
     let auth = SAuthentication();
     let spinerView = SpinnerViewController();
     var customers:[Customer]?;
-    
+    let searchController = UISearchController(searchResultsController: nil)
+    var lastKnowContentOfsset:CGFloat = 0;
+    var lastPage:Int! = 1;
+    var page:Int! = 1;
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getListCustomers();
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        searchController.searchResultsUpdater = self;
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchBar.delegate = self;
+        
+        
+        if #available(iOS 11.0, *) {
+            // For iOS 11 and later, place the search bar in the navigation bar.
+            navigationItem.searchController = searchController
+            
+            // Make the search bar always visible.
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            // For iOS 10 and earlier, place the search controller's search bar in the table view's header.
+            tableView.tableHeaderView = searchController.searchBar
+        }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        getListCustomers(search: nil);
     }
     
     func showSpiner() {
@@ -40,33 +54,57 @@ class CustomerTableViewController: UITableViewController {
         spinerView.removeFromParent();
     }
     
-    func getListCustomers() {
+   
+    func getListCustomers(search:String?) {
         showSpiner();
         guard let url = URL(string: apiDef.getApiStringUrl(apiName: .getCustomers)) else {
             return;
         }
-        
-        rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type");
         let isAuth = auth.isLogged();
         if isAuth.0 {
-            rest.requestHttpHeaders.add(value: "\(isAuth.1?.token_type ?? "") \(isAuth.1?.access_token ?? "")", forKey: "Authorization")
-        }
-       
-        rest.makeRequest(toURL: url, withHttpMethod: .get, completion: {(results) in
-            if results.response?.httpStatusCode == 200 {
-                if let data = results.data{
-                    do {
-                        let decoder = JSONDecoder()
-                        let getCustomerData = try! decoder.decode(GetListCutomersData.self, from: data)
-                        self.customers = getCustomerData.data?.data;
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData();
-                            self.removeSpiner();
+            rest.requestHttpHeaders.add(value: "Bearer \(isAuth.1?.access_token ?? "")", forKey: "Authorization")
+            rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type");
+            rest.requestHttpHeaders.add(value: "XMLHttpRequest", forKey: "X-Requested-With");
+            
+            if search != nil {
+                rest.urlQueryParameters.add(value: search ?? "", forKey: "search");
+            }
+            rest.urlQueryParameters.add(value:"\(page ?? 1)", forKey: "page");
+                       
+            rest.makeRequest(toURL: url, withHttpMethod: .get, completion: {(results) in
+                
+                if results.response?.httpStatusCode == 200 {
+                    if let data = results.data{
+                        do {
+                            let decoder = JSONDecoder()
+                            let getCustomerData = try! decoder.decode(GetListCutomersData.self, from: data)
+                            
+                            if self.page ?? 1 > 1 {
+                                self.customers?.append(contentsOf: getCustomerData.data!.data)
+                            } else {
+                                self.lastPage = getCustomerData.data?.last_page;
+                                self.customers = getCustomerData.data?.data;
+                            }
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData();
+                                self.removeSpiner();
+                            }
                         }
                     }
+                } else {
+                    DispatchQueue.main.async {
+                        self.removeSpiner();
+                        let alertController = UIAlertController(title: "Alert", message: "Oops...something went wrong!.", preferredStyle: .alert)
+                        let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
+                            print("You've pressed ok");
+                            //                        self.getListCustomers();
+                        }
+                        alertController.addAction(action1);
+                        self.present(alertController, animated: true, completion: nil)
+                    }
                 }
-            }
-        })
+            });
+        }
         
     }
 
@@ -86,18 +124,57 @@ class CustomerTableViewController: UITableViewController {
         }
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 76;
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomerCell", for: indexPath) as! CustomerTableViewCell;
     
        let customer:Customer = self.customers![indexPath.row]
-        cell.textLabel?.text = customer.name;
-        cell.detailTextLabel?.text = customer.phone;
+        cell.customerName.text = customer.name;
+        cell.customerPhone.text = customer.phone;
+        if customer.avatar == "" || customer.avatar == nil{
+            cell.customerProfile.image = UIImage(named: "default-profile");
+        }else {
+            cell.customerProfile.load(url: URL(string: customer.avatar!)!);
+        }
         
         return cell
     }
     
-
+    // MARK: - Searchbar controller
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        if searchText.count > 2  || searchText.count == 0 {
+            self.page = 1;
+            self.getListCustomers(search: searchText)
+        }
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == self.tableView {
+            let contentOffset = scrollView.contentOffset.y
+            if (contentOffset > self.lastKnowContentOfsset) {
+                if self.page < lastPage {
+                    self.page = self.page + 1;
+                    self.getListCustomers(search: nil)
+                }
+                
+            }
+            print("\(self.page ?? 1)")
+        }
+    }
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == self.tableView {
+            self.lastKnowContentOfsset = scrollView.contentOffset.y
+            print("lastKnowContentOfsset: ", scrollView.contentOffset.y)
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -63,6 +63,32 @@ class RestManager {
     }
     
     
+    func uploadFiles(toURL url: URL,
+                     withHttpMethod httpMethod: HttpMethod,
+                     imageData:Data,
+                     completion: @escaping (_ result: Results) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let targetURL = self?.addURLQueryParameters(toURL: url)
+            let httpBody = imageData;
+            
+            guard let request = self?.prepareRequest(withURL: targetURL, httpBody: httpBody, httpMethod: httpMethod) else
+            {
+                completion(Results(withError: CustomError.failedToCreateRequest))
+                return
+            }
+            
+            let sessionConfiguration = URLSessionConfiguration.default
+            let session = URLSession(configuration: sessionConfiguration)
+            let task = session.dataTask(with: request) { (data, response, error) in
+                completion(Results(withData: data,
+                                   response: Response(fromURLResponse: response),
+                                   error: error))
+            }
+            task.resume()
+        }
+    }
+    
+    
     
     // MARK: - Private Methods
     
@@ -111,7 +137,7 @@ class RestManager {
             request.setValue(value, forHTTPHeaderField: header)
         }
         
-        request.httpBody = httpBody
+        request.httpBody = httpMethod == .get ? nil : httpBody;
         return request
     }
 }
