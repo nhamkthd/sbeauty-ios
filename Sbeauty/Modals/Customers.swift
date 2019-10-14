@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit;
 
 struct GetListCutomersData: Codable {
     var data:CustomerData?
@@ -58,7 +58,7 @@ class Photo {
     var id:Int?
     var customer_id:Int?
     var imageUrlStr:String?
-
+    
     init(dictionary:[String:Any]) {
         self.id = dictionary["id"] as? Int;
         self.customer_id = dictionary["customer_id"] as? Int;

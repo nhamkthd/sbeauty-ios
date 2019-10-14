@@ -16,7 +16,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var photosCollectionView: UICollectionView!
-    
+
     
     let rest = RestManager();
     let apiDef = RestApiDefine();
@@ -38,6 +38,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
     
     var assets: [DKAsset]?
     
+    // MARK: - init views
     deinit {
         DKImagePickerControllerResource.customLocalizationBlock = nil
         DKImagePickerControllerResource.customImageBlock = nil
@@ -47,6 +48,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         
         DKImageAssetExporter.sharedInstance.remove(observer: self)
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +94,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         getPhots();
         // Do any additional setup after loading the view.
     }
+    
     func showSpiner() {
         self.addChild(spinerView);
         spinerView.view.frame = self.view.frame;
@@ -123,6 +126,8 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         self.alert?.dismiss(animated: false, completion: nil)
         self.isUploading = false;
     }
+    
+    // MARK: - rest api request
     
     func getPhots() {
         
@@ -175,11 +180,6 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         });
     }
     
-    func generateBoundaryString() -> String
-    {
-        return "Boundary-\(NSUUID().uuidString)"
-    }
-    
     
     func postPhoto(images:[UIImage], url:URL) {
         
@@ -195,11 +195,11 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
             AF.upload(multipartFormData: {multipartFromData in
                 if self.isPostPhotos {
                     for image in images {
-                        multipartFromData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image[]",fileName: "photo.png", mimeType: "image/png");
+                        multipartFromData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image[]");
                     }
                     multipartFromData.append("\(self.customer?.id ?? 0)".data(using: .utf8)!, withName: "customer_id");
                 }else {
-                    multipartFromData.append(images[0].jpegData(compressionQuality: 0.5)!, withName: "image",fileName: "photo.png", mimeType: "image/png");
+                    multipartFromData.append(images[0].jpegData(compressionQuality: 0.5)!, withName: "image");
                 }
             }, to: url,
                method: .post,
@@ -222,17 +222,21 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
                                         if self.isUploading == false {
                                             self.getPhots();
                                         }
-                                    }else {
-                                        let url = URL(string: rest);
-                                        self.profileImage.load(url: url!);
                                     }
                                 }
+                            } else  if let rest = object["message"] as? String {
+                                print(rest)
+                                let url = URL(string: rest);
+                                self.profileImage.load(url: url!);
                             }
                         }
                     }
                     break;
                 case .failure(let error):
                     print(error)
+                    DispatchQueue.main.async {
+                        self.dismissUploadingAlert();
+                    }
                     break;
                     
                 }
@@ -243,11 +247,11 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         
     }
     
+    // MARK: - actions
     
     @IBAction func takePhotoOnClick(_ sender: Any) {
         isPostPhotos = true;
         self.showDKImagePicker()
-        //        self.imagePicke.present(from: self.view, title: "Thêm ảnh vào thư viện")
         
     }
     
@@ -256,15 +260,15 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         self.imagePicke.present(from: self.view, title: "Thay ảnh đại diện")
     }
     
+    // MARK: - dkimagepicker
+    
     func didSelect(image: UIImage?) {
+        if image == nil  {
+            return;
+        }
         var images:[UIImage] = [];
         images.append(image!);
-        let url:URL;
-        if isPostPhotos {
-            url = URL(string: apiDef.getApiStringUrl(apiName: .addCustomerPhotos))!
-        } else {
-            url = URL(string: "\(apiDef.getApiStringUrl(apiName: .addCustomerProfilePicture))\(self.customer?.id ?? 0)/upload-avatar")!
-        }
+        let url = URL(string: "\(apiDef.getApiStringUrl(apiName: .addCustomerProfilePicture))\(self.customer?.id ?? 0)/upload-avatar")!
         self.postPhoto(images: images, url: url);
         
     }
@@ -272,29 +276,23 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         print("didSelectAssets")
         
         self.assets = assets
-        //        self.previewView?.reloadData()
+        let url = URL(string: apiDef.getApiStringUrl(apiName: .addCustomerPhotos))!
+        var images:[UIImage] = [];
+    
         for asset in assets {
-            DKImageAssetExporter.sharedInstance.exportAssetsAsynchronously(assets: assets, completion: nil)
-            if let error = asset.error {
-                print("exporterDidEndExporting with error:\(error.localizedDescription)")
-            } else {
-                print("exporterDidEndExporting:\(asset.localTemporaryPath!)")
-            }
+            asset.fetchOriginalImage(completeBlock: {image, info in
+                if let img = image{
+                    images.append(img);
+                    if images.count == assets.count {
+                        self.postPhoto(images: images, url: url);
+                    }
+                }
+            })
         }
-//        if dkimagePickerController.exportsWhenCompleted {
-//            for asset in assets {
-//                if let error = asset.error {
-//                    print("exporterDidEndExporting with error:\(error.localizedDescription)")
-//                } else {
-//                    print("exporterDidEndExporting:\(asset.localTemporaryPath!)")
-//                }
-//            }
-//        }
-//
-//        if self.exportManually {
-//            DKImageAssetExporter.sharedInstance.exportAssetsAsynchronously(assets: assets, completion: nil)
-//        }
+      
+
     }
+    
     
     
     func showDKImagePicker() {
@@ -302,7 +300,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         if self.exportManually {
             DKImageAssetExporter.sharedInstance.add(observer: self)
         }
-
+        
         if let assets = self.assets {
             dkimagePickerController.select(assets: assets)
         }
@@ -319,7 +317,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
             dkimagePickerController.UIDelegate = AssetClickHandler()
         }
         
-       self.present(dkimagePickerController, animated: true) {}
+        self.present(dkimagePickerController, animated: true) {}
         
     }
     
@@ -340,7 +338,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         let key = self.photoListKeys[indexPath.section];
         
         if  let collection = self.photoCollections[key]  {
-            cell.image.load(url: URL(string: collection[indexPath.row].imageUrlStr!)!);
+            cell.image.load(url: URL(string: collection[indexPath.row].imageUrlStr!)!)
         }
         // Configure the cell
         return cell
@@ -358,7 +356,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewPhotoController?.selectedIndex = indexPath;
     }
-   
+    
     /*
      // MARK: - Navigation
      

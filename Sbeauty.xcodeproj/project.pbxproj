@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		032483C944122CF6742B6DE7 /* Pods_Sbeauty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A195BBA7E5EDDEE707430901 /* Pods_Sbeauty.framework */; };
 		21EB128923531A1A0092E9B8 /* CustomerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB128823531A1A0092E9B8 /* CustomerTableViewCell.swift */; };
 		21EB128B23531E770092E9B8 /* ViewPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB128A23531E770092E9B8 /* ViewPhotoViewController.swift */; };
 		21ECAA1E2350D029001D2DA3 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECAA1D2350D029001D2DA3 /* PhotoCollectionViewCell.swift */; };
@@ -32,7 +33,6 @@
 		21F74CA023504195000C60A0 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C9F23504195000C60A0 /* Authentication.swift */; };
 		21F74CA223507C96000C60A0 /* SImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74CA123507C96000C60A0 /* SImagePicker.swift */; };
 		21F74CA423507E29000C60A0 /* CustomerPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74CA323507E29000C60A0 /* CustomerPhotoViewController.swift */; };
-		E1706A8E3D1DF85FF1701024 /* Pods_Sbeauty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAA682ACA591D4DA26D8CE84 /* Pods_Sbeauty.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,9 +63,9 @@
 		21F74C9F23504195000C60A0 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		21F74CA123507C96000C60A0 /* SImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SImagePicker.swift; sourceTree = "<group>"; };
 		21F74CA323507E29000C60A0 /* CustomerPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerPhotoViewController.swift; sourceTree = "<group>"; };
-		2560A1128F85EC0D7128291B /* Pods-Sbeauty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.release.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.release.xcconfig"; sourceTree = "<group>"; };
-		572326457D5752DD7C12E771 /* Pods-Sbeauty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.debug.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.debug.xcconfig"; sourceTree = "<group>"; };
-		EAA682ACA591D4DA26D8CE84 /* Pods_Sbeauty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sbeauty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E0822FFA0C7939842615FAC /* Pods-Sbeauty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.debug.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.debug.xcconfig"; sourceTree = "<group>"; };
+		8C5993E05D1BF5FE51D23F37 /* Pods-Sbeauty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.release.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.release.xcconfig"; sourceTree = "<group>"; };
+		A195BBA7E5EDDEE707430901 /* Pods_Sbeauty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sbeauty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1706A8E3D1DF85FF1701024 /* Pods_Sbeauty.framework in Frameworks */,
+				032483C944122CF6742B6DE7 /* Pods_Sbeauty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +86,7 @@
 				21F74C6B234F0718000C60A0 /* Sbeauty */,
 				21F74C6A234F0718000C60A0 /* Products */,
 				44BA4378057EACEC64010017 /* Pods */,
-				4EE72B4E527DDE8EE40BDD96 /* Frameworks */,
+				DC2B78A2CAE9BDA801C28A74 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,16 +174,16 @@
 		44BA4378057EACEC64010017 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				572326457D5752DD7C12E771 /* Pods-Sbeauty.debug.xcconfig */,
-				2560A1128F85EC0D7128291B /* Pods-Sbeauty.release.xcconfig */,
+				5E0822FFA0C7939842615FAC /* Pods-Sbeauty.debug.xcconfig */,
+				8C5993E05D1BF5FE51D23F37 /* Pods-Sbeauty.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		4EE72B4E527DDE8EE40BDD96 /* Frameworks */ = {
+		DC2B78A2CAE9BDA801C28A74 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EAA682ACA591D4DA26D8CE84 /* Pods_Sbeauty.framework */,
+				A195BBA7E5EDDEE707430901 /* Pods_Sbeauty.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -195,11 +195,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21F74C7B234F0719000C60A0 /* Build configuration list for PBXNativeTarget "Sbeauty" */;
 			buildPhases = (
-				4C831724B9289387A866B211 /* [CP] Check Pods Manifest.lock */,
+				6E0BC5CB2C51481CE7D0C471 /* [CP] Check Pods Manifest.lock */,
 				21F74C65234F0718000C60A0 /* Sources */,
 				21F74C66234F0718000C60A0 /* Frameworks */,
 				21F74C67234F0718000C60A0 /* Resources */,
-				7E10024C821665BB7AB8C601 /* [CP] Embed Pods Frameworks */,
+				4345FA8AE3F478F88B57DC36 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,7 +258,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4C831724B9289387A866B211 /* [CP] Check Pods Manifest.lock */ = {
+		4345FA8AE3F478F88B57DC36 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E0BC5CB2C51481CE7D0C471 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -278,23 +295,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7E10024C821665BB7AB8C601 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -468,7 +468,7 @@
 		};
 		21F74C7C234F0719000C60A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 572326457D5752DD7C12E771 /* Pods-Sbeauty.debug.xcconfig */;
+			baseConfigurationReference = 5E0822FFA0C7939842615FAC /* Pods-Sbeauty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -487,7 +487,7 @@
 		};
 		21F74C7D234F0719000C60A0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2560A1128F85EC0D7128291B /* Pods-Sbeauty.release.xcconfig */;
+			baseConfigurationReference = 8C5993E05D1BF5FE51D23F37 /* Pods-Sbeauty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
