@@ -10,10 +10,10 @@ import Foundation
 import UIKit;
 
 struct GetListCutomersData: Codable {
-    var data:CustomerData?
+    var data:Customers?
     var message:String?
 }
-struct CustomerData:Codable {
+struct Customers:Codable {
     var current_page:Int?
     var data:[Customer] = []
     var first_page_url:String?
@@ -54,17 +54,46 @@ struct Note: Codable{
 
 }
 
-class Photo {
-    var id:Int?
-    var customer_id:Int?
-    var imageUrlStr:String?
-    
-    init(dictionary:[String:Any]) {
-        self.id = dictionary["id"] as? Int;
-        self.customer_id = dictionary["customer_id"] as? Int;
-        self.imageUrlStr = dictionary["image"] as? String;
-    }
+struct PhotoData: Codable {
+    var data:Photos?
+    var message:String?
 }
+
+struct Photos: Codable {
+    var current_page:Int?
+    var data:[Photo] = []
+    var first_page_url:String?
+    var from:Int?
+    var last_page:Int?
+    var last_page_url:String?
+    var next_page_url:String?
+    var path:String?
+    var per_page:Int?
+    var prev_page_url:String?
+    var to:Int?
+    var total:Int?
+}
+
+struct Photo: Codable{
+    var id:Int?;
+    var customer_id: Int?;
+    var image:String?;
+    var created_at:String?;
+    var updated_at:String?;
+    var deleted_at:String?;
+}
+
+//class Photo {
+//    var id:Int?
+//    var customer_id:Int?
+//    var imageUrlStr:String?
+//
+//    init(dictionary:[String:Any]) {
+//        self.id = dictionary["id"] as? Int;
+//        self.customer_id = dictionary["customer_id"] as? Int;
+//        self.imageUrlStr = dictionary["image"] as? String;
+//    }
+//}
 
 
 //class Customer: NSObject {

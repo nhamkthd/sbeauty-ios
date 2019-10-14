@@ -10,33 +10,36 @@ import UIKit
 import Alamofire;
 import DKImagePickerController;
 
+
 class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var photosCollectionView: UICollectionView!
-
+    
     
     let rest = RestManager();
     let apiDef = RestApiDefine();
     let auth = SAuthentication();
     let spinerView = SpinnerViewController();
-    var viewPhotoController:ViewPhotoViewController?
     var imagePicke:SImagePicker!
     var customer:Customer?;
     var photos:[Photo] = [];
+//    var PhotoLoaded:[UIImage] = [];
     var photoListKeys:[String] = [];
     var photoCollections:[String: [Photo]] = [:];
     var alert:UIAlertController?;
     var isPostPhotos:Bool = true;
     var isUploading:Bool = false;
-    
+    var selectedIndexPath:IndexPath!
     let dkimagePickerController =  DKImagePickerController();
     
     var exportManually = false
     
     var assets: [DKAsset]?
+    var currentLeftSafeAreaInset  : CGFloat = 0.0
+    var currentRightSafeAreaInset : CGFloat = 0.0
     
     // MARK: - init views
     deinit {
@@ -147,33 +150,15 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
                 }
                 if let data = results.data{
                     do {
-                        let jsonRes =  try JSONSerialization.jsonObject(with: data, options: [])
-                        if let object = jsonRes as? [String : Any] {
-                            if let photosDict = object["data"] as? [String: Any]{
-                                for key  in photosDict.keys {
-                                    self.photoListKeys.append(key)
-                                    if let objects = photosDict[key] as? [Any] {
-                                        var photos:[Photo] = [];
-                                        for object in objects {
-                                            print(object);
-                                            if let photoObject = object as? [String:Any] {
-                                                
-                                                let photo = Photo(dictionary:photoObject);
-                                                photos.append(photo);
-                                            }
-                                            
-                                        }
-                                        self.photoCollections[key] = photos;
-                                    }
-                                }
-                                DispatchQueue.main.async {
-                                    self.photosCollectionView.reloadData();
-                                }
+                        let decoder = JSONDecoder()
+                        let photoData = try! decoder.decode(PhotoData.self, from: data)
+                        if let photos = photoData.data?.data {
+                            self.photos = photos;
+                            DispatchQueue.main.async {
+                                self.removeSpiner();
+                                self.photosCollectionView.reloadData();
                             }
                         }
-                    } catch let error {
-                        print(error)
-                        
                     }
                 }
             }
@@ -194,12 +179,15 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
             showLoadingAlert();
             AF.upload(multipartFormData: {multipartFromData in
                 if self.isPostPhotos {
+                    var index:Int = 0;
                     for image in images {
-                        multipartFromData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image[]");
+                        multipartFromData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image[\(index)]",fileName: "photo_\(index)", mimeType: "image/jpeg");
+                        index = index + 1;
                     }
+
                     multipartFromData.append("\(self.customer?.id ?? 0)".data(using: .utf8)!, withName: "customer_id");
                 }else {
-                    multipartFromData.append(images[0].jpegData(compressionQuality: 0.5)!, withName: "image");
+                    multipartFromData.append(images[0].jpegData(compressionQuality: 0.5)!, withName: "image",fileName: "avatar", mimeType: "image/jpeg" );
                 }
             }, to: url,
                method: .post,
@@ -222,12 +210,23 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
                                         if self.isUploading == false {
                                             self.getPhots();
                                         }
+                                    }else {
+                                        if let url = URL(string: rest){
+                                            self.profileImage.load(url: url);
+                                        }
                                     }
                                 }
                             } else  if let rest = object["message"] as? String {
                                 print(rest)
-                                let url = URL(string: rest);
-                                self.profileImage.load(url: url!);
+                                DispatchQueue.main.async {
+                                    self.dismissUploadingAlert();
+                                    let alertController = UIAlertController(title: "Alert", message:rest, preferredStyle: .alert)
+                                    let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
+                                        print("You've pressed ok");
+                                    }
+                                    alertController.addAction(action1);
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
                             }
                         }
                     }
@@ -278,7 +277,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         self.assets = assets
         let url = URL(string: apiDef.getApiStringUrl(apiName: .addCustomerPhotos))!
         var images:[UIImage] = [];
-    
+        
         for asset in assets {
             asset.fetchOriginalImage(completeBlock: {image, info in
                 if let img = image{
@@ -289,8 +288,8 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
                 }
             })
         }
-      
-
+        
+        
     }
     
     
@@ -324,23 +323,18 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
     // MARK: - Collection views
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return self.photoListKeys.count;
+        return 1;
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.photoCollections[self.photoListKeys[section]]!.count;
+        return photos.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for:indexPath) as! PhotoCollectionViewCell;
         cell.backgroundColor = .black
         cell.layer.cornerRadius = 2;
-        let key = self.photoListKeys[indexPath.section];
-        
-        if  let collection = self.photoCollections[key]  {
-            cell.image.load(url: URL(string: collection[indexPath.row].imageUrlStr!)!)
-        }
-        // Configure the cell
+        cell.image.load(url: URL(string: photos[indexPath.row].image!)!);
         return cell
     }
     
@@ -354,8 +348,83 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewPhotoController?.selectedIndex = indexPath;
+        self.selectedIndexPath = indexPath
+        self.performSegue(withIdentifier: "ShowPhotoPageView", sender: self)
     }
+    
+    //This function prevents the collectionView from accessing a deallocated cell. In the event
+    //that the cell for the selectedIndexPath is nil, a default UIImageView is returned in its place
+    func getImageViewFromCollectionViewCell(for selectedIndexPath: IndexPath) -> UIImageView {
+        
+        //Get the array of visible cells in the collectionView
+        let visibleCells = self.photosCollectionView.indexPathsForVisibleItems
+        
+        //If the current indexPath is not visible in the collectionView,
+        //scroll the collectionView to the cell to prevent it from returning a nil value
+        if !visibleCells.contains(self.selectedIndexPath) {
+           
+            //Scroll the collectionView to the current selectedIndexPath which is offscreen
+            self.photosCollectionView.scrollToItem(at: self.selectedIndexPath, at: .centeredVertically, animated: false)
+            
+            //Reload the items at the newly visible indexPaths
+            self.photosCollectionView.reloadItems(at: self.photosCollectionView.indexPathsForVisibleItems)
+            self.photosCollectionView.layoutIfNeeded()
+            
+            //Guard against nil values
+            guard let guardedCell = (self.photosCollectionView.cellForItem(at: self.selectedIndexPath) as? PhotoCollectionViewCell) else {
+                //Return a default UIImageView
+                return UIImageView(frame: CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 100.0, height: 100.0))
+            }
+            //The PhotoCollectionViewCell was found in the collectionView, return the image
+            return guardedCell.image;
+        }
+        else {
+            
+            //Guard against nil return values
+            guard let guardedCell = self.photosCollectionView.cellForItem(at: self.selectedIndexPath) as? PhotoCollectionViewCell else {
+                //Return a default UIImageView
+                return UIImageView(frame: CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 100.0, height: 100.0))
+            }
+            //The PhotoCollectionViewCell was found in the collectionView, return the image
+            return guardedCell.image
+        }
+        
+    }
+    //This function prevents the collectionView from accessing a deallocated cell. In the
+       //event that the cell for the selectedIndexPath is nil, a default CGRect is returned in its place
+       func getFrameFromCollectionViewCell(for selectedIndexPath: IndexPath) -> CGRect {
+           
+           //Get the currently visible cells from the collectionView
+           let visibleCells = self.photosCollectionView.indexPathsForVisibleItems
+           
+           //If the current indexPath is not visible in the collectionView,
+           //scroll the collectionView to the cell to prevent it from returning a nil value
+           if !visibleCells.contains(self.selectedIndexPath) {
+               
+               //Scroll the collectionView to the cell that is currently offscreen
+               self.photosCollectionView.scrollToItem(at: self.selectedIndexPath, at: .centeredVertically, animated: false)
+               
+               //Reload the items at the newly visible indexPaths
+               self.photosCollectionView.reloadItems(at: self.photosCollectionView.indexPathsForVisibleItems)
+               self.photosCollectionView.layoutIfNeeded()
+               
+               //Prevent the collectionView from returning a nil value
+               guard let guardedCell = (self.photosCollectionView.cellForItem(at: self.selectedIndexPath) as? PhotoCollectionViewCell) else {
+                   return CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 100.0, height: 100.0)
+               }
+               
+               return guardedCell.frame
+           }
+           //Otherwise the cell should be visible
+           else {
+               //Prevent the collectionView from returning a nil value
+               guard let guardedCell = (self.photosCollectionView.cellForItem(at: self.selectedIndexPath) as? PhotoCollectionViewCell) else {
+                   return CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 100.0, height: 100.0)
+               }
+               //The cell was found successfully
+               return guardedCell.frame
+           }
+       }
     
     /*
      // MARK: - Navigation
@@ -363,10 +432,16 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowPhoto" {
-            viewPhotoController = (segue.destination as! ViewPhotoViewController);
-            viewPhotoController?.photoCollectionKeys = self.photoListKeys;
-            viewPhotoController?.photoCollections = self.photoCollections;
+        if segue.identifier == "ShowPhotoPageView" {
+            let nav = self.navigationController
+            let vc = segue.destination as! PhotoPageContainerViewController
+            nav?.delegate = vc.transitionController
+            vc.transitionController.fromDelegate = self
+            vc.transitionController.toDelegate = vc
+            vc.delegate = self
+            vc.currentIndex = self.selectedIndexPath.row
+//            print(self.selectedIndexPath);
+            vc.photos = self.photos;
         }
     }
     
@@ -400,3 +475,55 @@ extension UIImageView {
     }
 }
 
+extension CustomerPhotoViewController: PhotoPageContainerViewControllerDelegate {
+ 
+    func containerViewController(_ containerViewController: PhotoPageContainerViewController, indexDidUpdate currentIndex: Int) {
+        self.selectedIndexPath = IndexPath(row: currentIndex, section: 0)
+        self.photosCollectionView.scrollToItem(at: self.selectedIndexPath, at: .centeredVertically, animated: false)
+    }
+}
+
+extension CustomerPhotoViewController: ZoomAnimatorDelegate {
+    
+    func transitionWillStartWith(zoomAnimator: ZoomAnimator) {
+        
+    }
+    
+    func transitionDidEndWith(zoomAnimator: ZoomAnimator) {
+        let cell = self.photosCollectionView.cellForItem(at: self.selectedIndexPath) as! PhotoCollectionViewCell
+        
+        let cellFrame = self.photosCollectionView.convert(cell.frame, to: self.view)
+        
+        if cellFrame.minY < self.photosCollectionView.contentInset.top {
+            self.photosCollectionView.scrollToItem(at: self.selectedIndexPath, at: .top, animated: false)
+        } else if cellFrame.maxY > self.view.frame.height - self.photosCollectionView.contentInset.bottom {
+            self.photosCollectionView.scrollToItem(at: self.selectedIndexPath, at: .bottom, animated: false)
+        }
+    }
+    
+    func referenceImageView(for zoomAnimator: ZoomAnimator) -> UIImageView? {
+        
+        //Get a guarded reference to the cell's UIImageView
+        let referenceImageView = getImageViewFromCollectionViewCell(for: self.selectedIndexPath)
+        
+        return referenceImageView
+    }
+    
+    func referenceImageViewFrameInTransitioningView(for zoomAnimator: ZoomAnimator) -> CGRect? {
+        
+        self.view.layoutIfNeeded()
+        self.photosCollectionView.layoutIfNeeded()
+        
+        //Get a guarded reference to the cell's frame
+        let unconvertedFrame = getFrameFromCollectionViewCell(for: self.selectedIndexPath)
+        
+        let cellFrame = self.photosCollectionView.convert(unconvertedFrame, to: self.view)
+        
+        if cellFrame.minY < self.photosCollectionView.contentInset.top {
+            return CGRect(x: cellFrame.minX, y: self.photosCollectionView.contentInset.top, width: cellFrame.width, height: cellFrame.height - (self.photosCollectionView.contentInset.top - cellFrame.minY))
+        }
+        
+        return cellFrame
+    }
+    
+}

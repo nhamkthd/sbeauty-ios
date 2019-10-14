@@ -97,7 +97,6 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
                         let alertController = UIAlertController(title: "Alert", message: "Oops...something went wrong!.", preferredStyle: .alert)
                         let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
                             print("You've pressed ok");
-                            //                        self.getListCustomers();
                         }
                         alertController.addAction(action1);
                         self.present(alertController, animated: true, completion: nil)
