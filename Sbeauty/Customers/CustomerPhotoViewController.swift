@@ -368,7 +368,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
-        self.performSegue(withIdentifier: "ShowPhotoPageView", sender: self)
+        self.performSegue(withIdentifier: "ShowPhotoContainer", sender: self)
     }
     
     //This function prevents the collectionView from accessing a deallocated cell. In the event
@@ -451,10 +451,8 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowPhotoPageView" {
-            let nav = self.navigationController
-            let vc = segue.destination as! PhotoPageContainerViewController
-            nav?.delegate = vc.transitionController
+        if segue.identifier == "ShowPhotoContainer" {
+            let vc = segue.destination as! PhotoContainerViewController
             vc.currentIndex = self.selectedIndexPath.row
             vc.photos = self.photos;
             vc.photosLoaded = self.photoLoaded;
@@ -474,15 +472,6 @@ class AssetClickHandler: DKImagePickerControllerBaseUIDelegate {
         //tap to deselect asset
         //use this place for asset deselection customisation
         print("didClickAsset for deselection")
-    }
-}
-
-
-extension CustomerPhotoViewController: PhotoPageContainerViewControllerDelegate {
- 
-    func containerViewController(_ containerViewController: PhotoPageContainerViewController, indexDidUpdate currentIndex: Int) {
-        self.selectedIndexPath = IndexPath(row: currentIndex, section: 0)
-        self.photosCollectionView.scrollToItem(at: self.selectedIndexPath, at: .centeredVertically, animated: false)
     }
 }
 
