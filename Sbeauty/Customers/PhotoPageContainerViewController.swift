@@ -12,24 +12,26 @@ protocol PhotoPageContainerViewControllerDelegate: class {
     func containerViewController(_ containerViewController: PhotoPageContainerViewController, indexDidUpdate currentIndex: Int)
 }
 
-class PhotoPageContainerViewController: UIViewController, UIGestureRecognizerDelegate {
+class PhotoPageContainerViewController: UIPageViewController, UIGestureRecognizerDelegate, UIPageViewControllerDelegate,UIPageViewControllerDataSource {
 
     enum ScreenMode {
         case full, normal
     }
     var currentMode: ScreenMode = .normal
     
-    weak var delegate: PhotoPageContainerViewControllerDelegate?
+   
     
     var pageViewController: UIPageViewController {
         return self.children[0] as! UIPageViewController
     }
     
-    var currentViewController: PhotoZoomViewController {
-        return self.pageViewController.viewControllers![0] as! PhotoZoomViewController
+    var currentViewController: ViewPhotoViewController {
+        return self.pageViewController.viewControllers![0] as! ViewPhotoViewController
     }
     
     var photos: [Photo]!
+    var photosLoaded:[Int:UIImage]?;
+    var selectedImage:UIImage?
     var currentIndex = 0
     var nextIndex: Int?
     
@@ -41,26 +43,19 @@ class PhotoPageContainerViewController: UIViewController, UIGestureRecognizerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.pageViewController.delegate = self
-        self.pageViewController.dataSource = self
-        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didPanWith(gestureRecognizer:)))
-        self.panGestureRecognizer.delegate = self
-        self.pageViewController.view.addGestureRecognizer(self.panGestureRecognizer)
-        
-        self.singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didSingleTapWith(gestureRecognizer:)))
-        self.pageViewController.view.addGestureRecognizer(self.singleTapGestureRecognizer)
-        
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(PhotoZoomViewController.self)") as! PhotoZoomViewController
-        vc.delegate = self
+        let vc = UIStoryboard(name: "Main", bundle: nil) .
+            instantiateViewController(withIdentifier: "ViewPhoto") as! ViewPhotoViewController;
         vc.index = self.currentIndex
-        vc.imageURL = URL(string: self.photos[self.currentIndex].image!);
-        
-        self.singleTapGestureRecognizer.require(toFail: vc.doubleTapGestureRecognizer)
+        if let image = self.photosLoaded![self.photos[self.currentIndex].id]{
+            vc.image = image;
+        }
+        vc.photo = self.photos[self.currentIndex];
+
         let viewControllers = [
             vc
         ]
-        
-        self.pageViewController.setViewControllers(viewControllers, direction: .forward, animated: true, completion: nil)
+        self.pageViewController.setViewControllers(viewControllers, direction: .forward, animated: true, completion: nil);
+
     }
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -80,18 +75,17 @@ class PhotoPageContainerViewController: UIViewController, UIGestureRecognizerDel
                 return false
             }
         }
-        
         return true
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         
-        if otherGestureRecognizer == self.currentViewController.scrollView.panGestureRecognizer {
-            if self.currentViewController.scrollView.contentOffset.y == 0 {
-                return true
-            }
-        }
-        
+//        if otherGestureRecognizer == self.currentViewController.photoScrollView.panGestureRecognizer {
+//            if self.currentViewController.photoScrollView.contentOffset.y == 0 {
+//                return true
+//            }
+//        }
+//
         return false
     }
     
@@ -103,12 +97,12 @@ class PhotoPageContainerViewController: UIViewController, UIGestureRecognizerDel
     @objc func didPanWith(gestureRecognizer: UIPanGestureRecognizer) {
         switch gestureRecognizer.state {
         case .began:
-            self.currentViewController.scrollView.isScrollEnabled = false
+//            self.currentViewController.photoScrollView.isScrollEnabled = false
             self.transitionController.isInteractive = true
             let _ = self.navigationController?.popViewController(animated: true)
         case .ended:
             if self.transitionController.isInteractive {
-                self.currentViewController.scrollView.isScrollEnabled = true
+//                self.currentViewController.photoScrollView.isScrollEnabled = true
                 self.transitionController.isInteractive = false
                 self.transitionController.didPanWith(gestureRecognizer: gestureRecognizer)
             }
@@ -148,22 +142,21 @@ class PhotoPageContainerViewController: UIViewController, UIGestureRecognizerDel
             })
         }
     }
-}
-
-extension PhotoPageContainerViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    
+    // MARK: Pageviewcontroller delegate and datasource
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if currentIndex == 0 {
             return nil
         }
         
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(PhotoZoomViewController.self)") as! PhotoZoomViewController
-        vc.delegate = self
-        vc.imageURL = URL(string: self.photos[self.currentIndex].image!);
-        vc.index = currentIndex - 1
-        self.singleTapGestureRecognizer.require(toFail: vc.doubleTapGestureRecognizer)
-        return vc
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewPhoto") as! ViewPhotoViewController
+        
+        vc.index = self.currentIndex - 1
+        if let image = self.photosLoaded![self.photos[self.currentIndex - 1].id]{
+            vc.image = image;
+        }
+        vc.photo = self.photos[self.currentIndex - 1];
+        return vc;
         
     }
     
@@ -173,12 +166,14 @@ extension PhotoPageContainerViewController: UIPageViewControllerDelegate, UIPage
             return nil
         }
         
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(PhotoZoomViewController.self)") as! PhotoZoomViewController
-        vc.delegate = self
-        self.singleTapGestureRecognizer.require(toFail: vc.doubleTapGestureRecognizer)
-        vc.imageURL = URL(string: self.photos[self.currentIndex].image!);
-        vc.index = currentIndex + 1
-        return vc
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewPhoto") as! ViewPhotoViewController
+        
+        vc.index = self.currentIndex + 1
+        if let image = self.photosLoaded![self.photos[self.currentIndex - 1].id]{
+            vc.image = image;
+        }
+        vc.photo = self.photos[self.currentIndex + 1];
+        return vc;
         
     }
     
@@ -196,16 +191,15 @@ extension PhotoPageContainerViewController: UIPageViewControllerDelegate, UIPage
         if (completed && self.nextIndex != nil) {
             previousViewControllers.forEach { vc in
                 let zoomVC = vc as! PhotoZoomViewController
-                zoomVC.scrollView.zoomScale = zoomVC.scrollView.minimumZoomScale
+                zoomVC.photoScrollView.zoomScale = zoomVC.photoScrollView.minimumZoomScale
             }
-
+            
             self.currentIndex = self.nextIndex!
-            self.delegate?.containerViewController(self, indexDidUpdate: self.currentIndex)
+            //self.delegate?.containerViewController(self, indexDidUpdate: self.currentIndex)
         }
         
         self.nextIndex = nil
     }
-    
 }
 
 extension PhotoPageContainerViewController: PhotoZoomViewControllerDelegate {
@@ -218,19 +212,19 @@ extension PhotoPageContainerViewController: PhotoZoomViewControllerDelegate {
     }
 }
 
-extension PhotoPageContainerViewController: ZoomAnimatorDelegate {
-    
-    func transitionWillStartWith(zoomAnimator: ZoomAnimator) {
-    }
-    
-    func transitionDidEndWith(zoomAnimator: ZoomAnimator) {
-    }
-    
-    func referenceImageView(for zoomAnimator: ZoomAnimator) -> UIImageView? {
-        return self.currentViewController.imageView
-    }
-    
-    func referenceImageViewFrameInTransitioningView(for zoomAnimator: ZoomAnimator) -> CGRect? {        
-        return self.currentViewController.scrollView.convert(self.currentViewController.imageView.frame, to: self.currentViewController.view)
-    }
-}
+//extension PhotoPageContainerViewController: ZoomAnimatorDelegate {
+//
+//    func transitionWillStartWith(zoomAnimator: ZoomAnimator) {
+//    }
+//
+//    func transitionDidEndWith(zoomAnimator: ZoomAnimator) {
+//    }
+//
+//    func referenceImageView(for zoomAnimator: ZoomAnimator) -> UIImageView? {
+//        return self.currentViewController.imageView
+//    }
+
+//    func referenceImageViewFrameInTransitioningView(for zoomAnimator: ZoomAnimator) -> CGRect? {
+//        return self.currentViewController.photoScrollView.convert(self.currentViewController.imageView.frame, to: self.currentViewController.view)
+//    }
+//}

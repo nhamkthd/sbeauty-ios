@@ -149,7 +149,14 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
         if customer.avatar == "" || customer.avatar == nil{
             cell.customerProfile.image = UIImage(named: "default-profile");
         }else {
-            cell.customerProfile.load(url: URL(string: customer.avatar!)!);
+            cell.customerProfile?.image  = UIImage(named: "default-thumbnail");
+            rest.getData(fromURL: URL(string: customer.avatar!)!, completion: {data in
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data!) {
+                        cell.customerProfile.image = image;
+                    }
+                }
+            })
         }
         
         return cell

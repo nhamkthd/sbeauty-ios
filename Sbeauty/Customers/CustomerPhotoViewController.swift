@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Foundation
+import ObjectiveC
 import Alamofire;
 import DKImagePickerController;
 
@@ -26,7 +28,7 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
     var imagePicke:SImagePicker!
     var customer:Customer?;
     var photos:[Photo] = [];
-//    var PhotoLoaded:[UIImage] = [];
+    var photoLoaded:[Int:UIImage] = [:];
     var photoListKeys:[String] = [];
     var photoCollections:[String: [Photo]] = [:];
     var alert:UIAlertController?;
@@ -67,7 +69,14 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         if self.customer?.avatar == nil || self.customer?.avatar == "" {
             profileImage.image = UIImage(named: "default-profile");
         } else {
-            profileImage.load(url: URL(string: self.customer!.avatar!)!);
+              profileImage.image = UIImage(named: "default-thumbnail");
+            rest.getData(fromURL: URL(string: self.customer!.avatar!)!, completion: {data in
+                if let image = UIImage(data: data!) {
+                    DispatchQueue.main.async {
+                        self.profileImage.image = image;
+                    }
+                }
+            })
         }
         self.nameLabel.textColor = SColor().colorWithName(name: .mainText);
         self.nameLabel.text = self.customer?.name;
@@ -212,7 +221,11 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
                                         }
                                     }else {
                                         if let url = URL(string: rest){
-                                            self.profileImage.load(url: url);
+                                            self.rest.getData(fromURL: url, completion: {data in
+                                                if let image  = UIImage(data: data!) {
+                                                    self.profileImage.image = image;
+                                                }
+                                            })
                                         }
                                     }
                                 }
@@ -292,8 +305,6 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         
     }
     
-    
-    
     func showDKImagePicker() {
         
         if self.exportManually {
@@ -334,7 +345,15 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for:indexPath) as! PhotoCollectionViewCell;
         cell.backgroundColor = .black
         cell.layer.cornerRadius = 2;
-        cell.image.load(url: URL(string: photos[indexPath.row].image!)!);
+        cell.image.image = UIImage(named: "default-thumbnail");
+        rest.getData(fromURL:URL(string: self.photos[indexPath.row].image!)! , completion: {data in
+            if let image = UIImage(data: data!) {
+                DispatchQueue.main.async {
+                    cell.image.image = image;
+                    self.photoLoaded[self.photos[indexPath.row].id] = image;
+                }
+            }
+        })
         return cell
     }
     
@@ -436,12 +455,9 @@ class CustomerPhotoViewController: UIViewController,ImagePickerDelegate, UIColle
             let nav = self.navigationController
             let vc = segue.destination as! PhotoPageContainerViewController
             nav?.delegate = vc.transitionController
-            vc.transitionController.fromDelegate = self
-            vc.transitionController.toDelegate = vc
-            vc.delegate = self
             vc.currentIndex = self.selectedIndexPath.row
-//            print(self.selectedIndexPath);
             vc.photos = self.photos;
+            vc.photosLoaded = self.photoLoaded;
         }
     }
     
@@ -461,19 +477,6 @@ class AssetClickHandler: DKImagePickerControllerBaseUIDelegate {
     }
 }
 
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
-                }
-            }
-        }
-    }
-}
 
 extension CustomerPhotoViewController: PhotoPageContainerViewControllerDelegate {
  
@@ -526,4 +529,28 @@ extension CustomerPhotoViewController: ZoomAnimatorDelegate {
         return cellFrame
     }
     
+}
+
+
+extension UIImageView {
+    func load(url: URL) {
+        self.image = UIImage(named: "default-thumbnail");
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+    
+    func showActivityIndicator(){
+       
+    }
+    
+    func hideActivityIndicator() {
+       
+    }
 }

@@ -19,7 +19,7 @@ class ZoomAnimator: NSObject {
     
     weak var fromDelegate: ZoomAnimatorDelegate?
     weak var toDelegate: ZoomAnimatorDelegate?
-
+    
     var transitionImageView: UIImageView?
     var isPresenting: Bool = true
     
@@ -44,9 +44,9 @@ class ZoomAnimator: NSObject {
         containerView.addSubview(toVC.view)
         
         let referenceImage = fromReferenceImageView.image!
-        
+    
         if self.transitionImageView == nil {
-            let transitionImageView = UIImageView(image: referenceImage)
+            let transitionImageView = UIImageView(image: referenceImage);
             transitionImageView.contentMode = .scaleAspectFill
             transitionImageView.clipsToBounds = true
             transitionImageView.frame = fromReferenceImageViewFrame
@@ -69,7 +69,7 @@ class ZoomAnimator: NSObject {
                         fromVC.tabBarController?.tabBar.alpha = 0
         },
                        completion: { completed in
-                    
+                        
                         self.transitionImageView?.removeFromSuperview()
                         toReferenceImageView.isHidden = false
                         fromReferenceImageView.isHidden = false
@@ -80,6 +80,7 @@ class ZoomAnimator: NSObject {
                         self.toDelegate?.transitionDidEndWith(zoomAnimator: self)
                         self.fromDelegate?.transitionDidEndWith(zoomAnimator: self)
         })
+        
     }
     
     fileprivate func animateZoomOutTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -103,7 +104,7 @@ class ZoomAnimator: NSObject {
         let referenceImage = fromReferenceImageView.image!
         
         if self.transitionImageView == nil {
-            let transitionImageView = UIImageView(image: referenceImage)
+            let transitionImageView = UIImageView(image: referenceImage);
             transitionImageView.contentMode = .scaleAspectFill
             transitionImageView.clipsToBounds = true
             transitionImageView.frame = fromReferenceImageViewFrame
@@ -132,7 +133,7 @@ class ZoomAnimator: NSObject {
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             self.toDelegate?.transitionDidEndWith(zoomAnimator: self)
             self.fromDelegate?.transitionDidEndWith(zoomAnimator: self)
-
+            
         })
     }
     

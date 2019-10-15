@@ -13,8 +13,8 @@
 		213FE4522354AD8D002EC569 /* ZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213FE44F2354AD8D002EC569 /* ZoomAnimator.swift */; };
 		213FE4552354AD99002EC569 /* PhotoPageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */; };
 		213FE4562354AD99002EC569 /* PhotoZoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213FE4542354AD99002EC569 /* PhotoZoomViewController.swift */; };
+		21A536F62355D3C7009DA903 /* ViewPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A536F52355D3C7009DA903 /* ViewPhotoViewController.swift */; };
 		21EB128923531A1A0092E9B8 /* CustomerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB128823531A1A0092E9B8 /* CustomerTableViewCell.swift */; };
-		21EB128B23531E770092E9B8 /* ViewPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EB128A23531E770092E9B8 /* ViewPhotoViewController.swift */; };
 		21ECAA1E2350D029001D2DA3 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECAA1D2350D029001D2DA3 /* PhotoCollectionViewCell.swift */; };
 		21ECAA202350D30B001D2DA3 /* PhotoCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECAA1F2350D30B001D2DA3 /* PhotoCollectionReusableView.swift */; };
 		21F1324D234F7B100032E513 /* RestApiDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F1324C234F7B100032E513 /* RestApiDefine.swift */; };
@@ -46,8 +46,8 @@
 		213FE44F2354AD8D002EC569 /* ZoomAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomAnimator.swift; sourceTree = "<group>"; };
 		213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPageContainerViewController.swift; sourceTree = "<group>"; };
 		213FE4542354AD99002EC569 /* PhotoZoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoZoomViewController.swift; sourceTree = "<group>"; };
+		21A536F52355D3C7009DA903 /* ViewPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPhotoViewController.swift; sourceTree = "<group>"; };
 		21EB128823531A1A0092E9B8 /* CustomerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerTableViewCell.swift; sourceTree = "<group>"; };
-		21EB128A23531E770092E9B8 /* ViewPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPhotoViewController.swift; sourceTree = "<group>"; };
 		21ECAA1D2350D029001D2DA3 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		21ECAA1F2350D30B001D2DA3 /* PhotoCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionReusableView.swift; sourceTree = "<group>"; };
 		21F1324C234F7B100032E513 /* RestApiDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiDefine.swift; sourceTree = "<group>"; };
@@ -175,10 +175,10 @@
 			isa = PBXGroup;
 			children = (
 				21F74C93234F1EDD000C60A0 /* CustomerTableViewController.swift */,
-				213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */,
-				213FE4542354AD99002EC569 /* PhotoZoomViewController.swift */,
 				21F74CA323507E29000C60A0 /* CustomerPhotoViewController.swift */,
-				21EB128A23531E770092E9B8 /* ViewPhotoViewController.swift */,
+				213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */,
+				21A536F52355D3C7009DA903 /* ViewPhotoViewController.swift */,
+				213FE4542354AD99002EC569 /* PhotoZoomViewController.swift */,
 			);
 			path = Customers;
 			sourceTree = "<group>";
@@ -343,12 +343,12 @@
 				213FE4512354AD8D002EC569 /* ZoomTransitionController.swift in Sources */,
 				21F74C9C23501C48000C60A0 /* Enums.swift in Sources */,
 				21F74CA023504195000C60A0 /* Authentication.swift in Sources */,
+				21A536F62355D3C7009DA903 /* ViewPhotoViewController.swift in Sources */,
 				21F74C94234F1EDD000C60A0 /* CustomerTableViewController.swift in Sources */,
 				21F74C8C234F17D8000C60A0 /* Auth.swift in Sources */,
 				21EB128923531A1A0092E9B8 /* CustomerTableViewCell.swift in Sources */,
 				21F74C91234F1E86000C60A0 /* MainViewController.swift in Sources */,
 				213FE4502354AD8D002EC569 /* ZoomDismissalInteractionController.swift in Sources */,
-				21EB128B23531E770092E9B8 /* ViewPhotoViewController.swift in Sources */,
 				21F74C9E2350230D000C60A0 /* Constants.swift in Sources */,
 				21F74C84234F0784000C60A0 /* Customers.swift in Sources */,
 				213FE4562354AD99002EC569 /* PhotoZoomViewController.swift in Sources */,
