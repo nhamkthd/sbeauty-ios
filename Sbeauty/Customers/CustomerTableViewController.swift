@@ -162,6 +162,11 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
         return cell
     }
     
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "ShowPhotos", sender: self)
+    }
+    
     // MARK: - Searchbar controller
     func updateSearchResults(for searchController: UISearchController) {
         
@@ -236,7 +241,7 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowPhotos" {
-            let viewController:CustomerPhotoViewController = segue.destination as! CustomerPhotoViewController
+            let viewController:PhotosCollectionViewController = segue.destination as! PhotosCollectionViewController
             let indexPath = self.tableView.indexPathForSelectedRow;
             viewController.customer = self.customers![(indexPath?.row)!];
             

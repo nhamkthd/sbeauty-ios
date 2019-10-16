@@ -1,8 +1,8 @@
 //
-//  CustomerPhotoViewController.swift
+//  PhotosCollectionViewController.swift
 //  Sbeauty
 //
-//  Created by Trần Nhâm on 10/11/19.
+//  Created by Trần Nhâm on 10/16/19.
 //  Copyright © 2019 Trần Nhâm. All rights reserved.
 //
 
@@ -12,19 +12,9 @@ import ObjectiveC
 import Alamofire;
 import DKImagePickerController;
 
-protocol CustomerPhotoViewControllerDelegate: class {
-    func photoLoadedUpdate(customerPhotoViewControllerDelegate:CustomerPhotoViewController, photoLoaded:[Int:UIImage]);
-}
+private let reuseIdentifier = "PhotoCell"
 
-class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrollViewDelegate, UICollectionViewFlowLayout {
-    
-    @IBOutlet weak var mainScrollView: UIScrollView!
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var photosCollectionView: UICollectionView!
-    
+class PhotosCollectionViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout,ImagePickerDelegate {
     
     let rest = RestManager();
     let apiDef = RestApiDefine();
@@ -32,6 +22,7 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
     let spinerView = SpinnerViewController();
     var imagePicke:SImagePicker!
     var customer:Customer?;
+    var newAvatar:UIImage?;
     var photos:[Photo] = [];
     var photoLoaded:[Int:UIImage] = [:];
     var alert:UIAlertController?;
@@ -45,9 +36,8 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
     var assets: [DKAsset]?
     var currentLeftSafeAreaInset  : CGFloat = 0.0
     var currentRightSafeAreaInset : CGFloat = 0.0
-    var delegate:CustomerPhotoViewControllerDelegate?
+  
     
-    // MARK: - init views
     deinit {
         DKImagePickerControllerResource.customLocalizationBlock = nil
         DKImagePickerControllerResource.customImageBlock = nil
@@ -58,28 +48,13 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
         DKImageAssetExporter.sharedInstance.remove(observer: self)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.headerView.frame.height + self.photosCollectionView.frame.height);
-        self.mainScrollView.isScrollEnabled = false;
-        self.mainScrollView.delegate = self;
-        self.imagePicke = SImagePicker(presentationController: self, delegate: self)
-        setHeaderView();
-        initPhotoCollectionView();
-        registerSwipes();
-        getPhots();
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+        imagePicke = SImagePicker(presentationController: self, delegate: self)
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
 
-    // MARK: config views
-    
-    func initPhotoCollectionView(){
-        self.photosCollectionView.delegate = self;
-        self.photosCollectionView.dataSource = self;
-        
+        // Register cell classes
         //Define Layout here
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
@@ -97,45 +72,11 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
         
         //set minimum vertical line spacing here between two lines in collectionview
         layout.minimumLineSpacing = 4
-        self.photosCollectionView.collectionViewLayout = layout;
-//        self.photosCollectionView.isScrollEnabled = false;
-    }
-    
-    func setHeaderView() {
-        
-        profileImage.layer.masksToBounds = false
-        profileImage.layer.borderColor = UIColor.black.cgColor
-        profileImage.layer.cornerRadius = profileImage.frame.height/2
-        profileImage.clipsToBounds = true
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeProfilePictureOnClick(tapGestureRecognizer:)))
-        profileImage.isUserInteractionEnabled = true
-        profileImage.addGestureRecognizer(tapGestureRecognizer)
-        if self.customer?.avatar == nil || self.customer?.avatar == "" {
-            profileImage.image = UIImage(named: "default-profile");
-        } else {
-            profileImage.image = UIImage(named: "default-thumbnail");
-            rest.getData(fromURL: URL(string: self.customer!.avatar!)!, completion: {data in
-                if let image = UIImage(data: data!) {
-                    DispatchQueue.main.async {
-                        self.profileImage.image = image;
-                    }
-                }
-            })
-        }
-        //        self.nameLabel.textColor = SColor().colorWithName(name: .mainText);
-        self.nameLabel.text = self.customer?.name;
-        //        self.addressLabel.textColor = SColor().colorWithName(name: .secondary);
-        self.addressLabel.text = self.customer?.address;
-    }
-    
-    func registerSwipes() {
-        let up = UISwipeGestureRecognizer(target : self, action : #selector(upSwipe))
-        up.direction = .up
-        self.view.addGestureRecognizer(up)
-        
-        let down = UISwipeGestureRecognizer(target : self, action : #selector(downSwipe))
-        down.direction = .down
-        self.view.addGestureRecognizer(down)
+//        self. = layout;
+//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        getPhots();
+
+        // Do any additional setup after loading the view.
     }
     
     func showSpiner() {
@@ -192,7 +133,7 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
                             self.photos = photos;
                             DispatchQueue.main.async {
                                 self.removeSpiner();
-                                self.photosCollectionView.reloadData();
+                                self.collectionView.reloadData();
                             }
                         }
                     }
@@ -220,7 +161,7 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
                         multipartFromData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image[\(index)]",fileName: "photo_\(index)", mimeType: "image/jpeg");
                         index = index + 1;
                     }
-
+                    
                     multipartFromData.append("\(self.customer?.id ?? 0)".data(using: .utf8)!, withName: "customer_id");
                 }else {
                     multipartFromData.append(images[0].jpegData(compressionQuality: 0.5)!, withName: "image",fileName: "avatar", mimeType: "image/jpeg" );
@@ -241,8 +182,7 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
                                 DispatchQueue.main.async {
                                     self.dismissUploadingAlert();
                                     if self.isPostPhotos {
-                                        self.photoListKeys.removeAll();
-                                        self.photoCollections.removeAll();
+                                        self.photos.removeAll();
                                         if self.isUploading == false {
                                             self.getPhots();
                                         }
@@ -250,7 +190,10 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
                                         if let url = URL(string: rest){
                                             self.rest.getData(fromURL: url, completion: {data in
                                                 if let image  = UIImage(data: data!) {
-                                                    self.profileImage.image = image;
+                                                    DispatchQueue.main.sync {
+                                                        self.newAvatar = image;
+                                                        self.collectionView.reloadData();
+                                                    }
                                                 }
                                             })
                                         }
@@ -298,36 +241,11 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
         self.alert?.dismiss(animated: false, completion: nil)
         self.isUploading = false;
     }
-    
-    @objc
-    func upSwipe(){
-//        UIView.animate(withDuration: 0.5, animations: {
-//            self.headerView.frame.origin.y -= self.headerView.frame.height;
-//            let newSize = CGSize(width: self.photosCollectionView.frame.width, height: self.photosCollectionView.frame.height + self.headerView.frame.height);
-//            self.photosCollectionView.frame.size = newSize;
-//            self.photosCollectionView.frame.origin.y -= self.headerView.frame.height;
-//
-//
-//        }, completion: nil)
-    }
-    
-    @objc
-    func downSwipe(){
-//        UIView.animate(withDuration: 0.5, animations: {
-//            self.headerView.frame.origin.y += self.headerView.frame.height;
-//            let newSize = CGSize(width: self.photosCollectionView.frame.width, height: self.photosCollectionView.frame.height - self.headerView.frame.height);
-//            self.photosCollectionView.frame.size = newSize;
-//            self.photosCollectionView.frame.origin.y += self.headerView.frame.height;
-//
-//
-//        }, completion: nil)
-    }
-    
+
     @objc func changeProfilePictureOnClick(tapGestureRecognizer: UITapGestureRecognizer) {
         isPostPhotos  = false;
         self.imagePicke.present(from: self.view, title: "Thay ảnh đại diện")
     }
-    
     
     // MARK: - dkimagepicker
     
@@ -387,130 +305,106 @@ class CustomerPhotoViewController: UICollectionView,ImagePickerDelegate, UIScrol
         self.present(dkimagePickerController, animated: true) {}
         
     }
-    
-    // MARK: - Collection views
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowPhotoContainer" {
+            let vc = segue.destination as! PhotoContainerViewController
+            vc.currentIndex = self.selectedIndexPath.row
+            vc.photos = self.photos;
+            vc.photosLoaded = self.photoLoaded;
+        }
+    }
+
+    // MARK: UICollectionViewDataSource
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 1;
     }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count;
+
+
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of items
+        return photos.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for:indexPath) as! PhotoCollectionViewCell;
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell;
         cell.backgroundColor = .black
         cell.layer.cornerRadius = 2;
-        cell.image.image = UIImage(named: "default-thumbnail");
+        cell.imageView.image = UIImage(named: "default-thumbnail");
         rest.getData(fromURL:URL(string: self.photos[indexPath.row].image!)! , completion: {data in
             if data != nil {
                 if let image = UIImage(data: data!) {
                     DispatchQueue.main.async {
-                        cell.image.image = image;
+                        cell.imageView.image = image;
                         self.photoLoaded[self.photos[indexPath.row].id] = image;
-                        self.delegate?.photoLoadedUpdate(customerPhotoViewControllerDelegate: self, photoLoaded: self.photoLoaded)
+//                        self.delegate?.photoLoadedUpdate(customerPhotoViewControllerDelegate: self, photoLoaded: self.photoLoaded)
                     }
                 }
             }
         })
         return cell
+
     }
     
-    func  collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PhotoHeaderCell", for:indexPath) as! PhotoCollectionReusableView;
-            return headerCell;
-        default:
-            fatalError()
-        }
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.selectedIndexPath = indexPath
-//        self.performSegue(withIdentifier: "ShowPhotoContainer", sender: self)
-    }
-    
-    // MARK: Scrollview delegate
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-      
-//        if scrollView == self.photosCollectionView {
-//            if scrollView.contentOffset.y > 0 {
-//                UIView.animate(withDuration: 0.5, animations: {
-//                    self.headerView.frame.origin.y -= self.headerView.frame.height;
-//                    let newSize = CGSize(width: self.photosCollectionView.frame.width, height: self.photosCollectionView.frame.height + self.headerView.frame.height);
-//                    self.photosCollectionView.frame.size = newSize;
-//                    self.photosCollectionView.frame.origin.y -= self.headerView.frame.height;
-//
-//
-//                }, completion: nil)
-//            }else{
-//                print(scrollView.contentOffset);
-//            }
-//        }
-        
-        if scrollView.isDragging {
-            print("scrollview is draging....\(self.lastKnowContentOfsset)")
-            if self.lastKnowContentOfsset ==  0 {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.headerView.frame.origin.y -= self.headerView.frame.height;
-                    let newSize = CGSize(width: self.photosCollectionView.frame.width, height: self.photosCollectionView.frame.height + self.headerView.frame.height);
-                    self.photosCollectionView.frame.size = newSize;
-                    self.photosCollectionView.frame.origin.y -= self.headerView.frame.height;
-                    
-                    
-                }, completion: nil)
+            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PhotoHeaderCell", for: indexPath) as! PhotoCollectionReusableView
+            if newAvatar != nil {
+                reusableview.imageView.image = newAvatar;
+            }else if self.customer?.avatar != nil && self.customer?.avatar != "" {
+                 reusableview.imageView.load(url: URL(string:self.customer!.avatar!)!);
+            }else {
+                reusableview.imageView.image = UIImage(named: "default-profile");
             }
-        }
-        
-//        if scrollView.isDecelerating {
-//            if self.lastKnowContentOfsset > 0 {
-//                UIView.animate(withDuration: 0.5, animations: {
-//                    self.headerView.frame.origin.y += self.headerView.frame.height;
-//                    let newSize = CGSize(width: self.photosCollectionView.frame.width, height: self.photosCollectionView.frame.height - self.headerView.frame.height);
-//                    self.photosCollectionView.frame.size = newSize;
-//                    self.photosCollectionView.frame.origin.y += self.headerView.frame.height;
-//
-//
-//                }, completion: nil)
-//            }
-//        }
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView == self.photosCollectionView {
-            self.lastKnowContentOfsset = scrollView.contentOffset.y
-            print("lastKnowContentOfsset: ", scrollView.contentOffset.y)
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeProfilePictureOnClick(tapGestureRecognizer:)))
+            reusableview.imageView.isUserInteractionEnabled = true
+             reusableview.imageView.addGestureRecognizer(tapGestureRecognizer)
+           
+            reusableview.nameLbl.text = self.customer?.name;
+            reusableview.addressLbl.text = self.customer?.address;
+            return reusableview
+            
+            
+        default:  fatalError("Unexpected element kind")
         }
     }
+
+    // MARK: UICollectionViewDelegate
     
-    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-         print("scrollViewShouldScrollToTop...");
-        return true;
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedIndexPath = indexPath
+        self.performSegue(withIdentifier: "ShowPhotoContainer", sender: self)
     }
     
-    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        print("scrollViewDidScrollToTop...");
+    // MARK: UICollectionViewDelegateFlowLayout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width / 3 - 7, height: 120)
     }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 4.0
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout
+        collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 4.0
+    }
     
-   
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     */
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ShowPhotoContainer" {
-//            let vc = segue.destination as! PhotoContainerViewController
-//            vc.currentIndex = self.selectedIndexPath.row
-//            vc.photos = self.photos;
-//            vc.photosLoaded = self.photoLoaded;
-//        }
-//    }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5);
+    }
+
 }
 
 // MARK: extension classes
@@ -525,5 +419,24 @@ class AssetClickHandler: DKImagePickerControllerBaseUIDelegate {
         //tap to deselect asset
         //use this place for asset deselection customisation
         print("didClickAsset for deselection")
+    }
+}
+
+
+
+extension UIImageView {
+    
+    
+    func load(url: URL) {
+        self.image = UIImage(named: "default-thumbnail");
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
     }
 }

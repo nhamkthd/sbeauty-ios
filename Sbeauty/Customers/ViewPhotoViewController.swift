@@ -7,23 +7,28 @@
 ////
 
 import UIKit
+import EFImageViewZoom;
+class ViewPhotoViewController: UIViewController, EFImageViewZoomDelegate {
 
-class ViewPhotoViewController: UIViewController {
-
+    @IBOutlet weak var efViewZoom: EFImageViewZoom!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var lable:UILabel!;
 
     var index:Int!;
     var photo:Photo?;
     var image:UIImage?;
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         lable.text = self.photo?.created_at;
+        efViewZoom._delegate  = self;
+      
         if image != nil {
-            
+            efViewZoom.image = image;
+//            self.imageView.image = image;
         }else{
-            self.imageView.load(url: URL(string: (self.photo?.image!)!)!);
+            efViewZoom.imageView.load(url:URL(string: (self.photo?.image!)!)!)
+//            self.imageView.load(url: URL(string: (self.photo?.image!)!)!);
         }
     }
     /*
