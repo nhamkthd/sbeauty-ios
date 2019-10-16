@@ -8,11 +8,10 @@
 
 import UIKit
 import EFImageViewZoom;
+import Nuke;
 class ViewPhotoViewController: UIViewController, EFImageViewZoomDelegate {
 
     @IBOutlet weak var efViewZoom: EFImageViewZoom!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var lable:UILabel!;
 
     var index:Int!;
     var photo:Photo?;
@@ -20,15 +19,17 @@ class ViewPhotoViewController: UIViewController, EFImageViewZoomDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        lable.text = self.photo?.created_at;
+       
         efViewZoom._delegate  = self;
-      
+        let options = ImageLoadingOptions(
+            placeholder: UIImage(named: "default-thumbnail"),
+            transition: .fadeIn(duration: 0.33)
+        )
         if image != nil {
             efViewZoom.image = image;
-//            self.imageView.image = image;
         }else{
-            efViewZoom.imageView.load(url:URL(string: (self.photo?.image!)!)!)
-//            self.imageView.load(url: URL(string: (self.photo?.image!)!)!);
+//            efViewZoom.imageView.load(url:URL(string: (self.photo?.image!)!)!)
+            Nuke.loadImage(with: URL(string: (self.photo?.image!)!)!, options: options, into:efViewZoom.imageView)
         }
     }
     /*

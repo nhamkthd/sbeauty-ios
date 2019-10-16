@@ -52,6 +52,7 @@ PODS:
     - SDWebImageFLPlugin
   - EFImageViewZoom (0.0.3)
   - FLAnimatedImage (1.0.12)
+  - Nuke (8.3.0)
   - SDWebImage (5.2.3):
     - SDWebImage/Core (= 5.2.3)
   - SDWebImage/Core (5.2.3)
@@ -63,6 +64,7 @@ DEPENDENCIES:
   - Alamofire (~> 5.0.0-rc.2)
   - DKImagePickerController
   - EFImageViewZoom
+  - Nuke
 
 SPEC REPOS:
   trunk:
@@ -73,6 +75,7 @@ SPEC REPOS:
     - DKPhotoGallery
     - EFImageViewZoom
     - FLAnimatedImage
+    - Nuke
     - SDWebImage
     - SDWebImageFLPlugin
 
@@ -84,9 +87,10 @@ SPEC CHECKSUMS:
   DKPhotoGallery: 0290d32343574f06eaa4c26f8f2f8a1035e916be
   EFImageViewZoom: 00c327c1d876e0f9086880681549179b0dbe9811
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  Nuke: 775e35cf3c12cde80b3bff5fc7a77abb0cf29d0b
   SDWebImage: 46a7f73228f84ce80990c786e4372cf4db5875ce
   SDWebImageFLPlugin: cf3f4ae49f249dd785129346fd61bbc8433a88cf
 
-PODFILE CHECKSUM: ac5f4a32c45062fd85849f7bf92908f70ae33b73
+PODFILE CHECKSUM: f9312e3036c2f462ef6cbf17429b0b875c53c6d7
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.1

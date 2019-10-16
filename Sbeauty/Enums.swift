@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ColorName:String {
+public enum ColorName:String {
     case pimary
     case info
     case success
@@ -18,4 +18,7 @@ enum ColorName:String {
     case mainText
 }
 
+public enum BorderSide {
+    case top, bottom, left, right
+}
 

@@ -11,6 +11,7 @@ import Foundation
 import ObjectiveC
 import Alamofire;
 import DKImagePickerController;
+import Nuke;
 
 private let reuseIdentifier = "PhotoCell"
 
@@ -36,8 +37,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
     var assets: [DKAsset]?
     var currentLeftSafeAreaInset  : CGFloat = 0.0
     var currentRightSafeAreaInset : CGFloat = 0.0
-  
-    
+    var loadImageOptions:ImageLoadingOptions!
     deinit {
         DKImagePickerControllerResource.customLocalizationBlock = nil
         DKImagePickerControllerResource.customImageBlock = nil
@@ -75,7 +75,10 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
 //        self. = layout;
 //        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         getPhots();
-
+        loadImageOptions = ImageLoadingOptions(
+            placeholder: UIImage(named: "default-thumbnail"),
+            transition: .fadeIn(duration: 0.33)
+        )
         // Do any additional setup after loading the view.
     }
     
@@ -336,18 +339,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell;
         cell.backgroundColor = .black
         cell.layer.cornerRadius = 2;
-        cell.imageView.image = UIImage(named: "default-thumbnail");
-        rest.getData(fromURL:URL(string: self.photos[indexPath.row].image!)! , completion: {data in
-            if data != nil {
-                if let image = UIImage(data: data!) {
-                    DispatchQueue.main.async {
-                        cell.imageView.image = image;
-                        self.photoLoaded[self.photos[indexPath.row].id] = image;
-//                        self.delegate?.photoLoadedUpdate(customerPhotoViewControllerDelegate: self, photoLoaded: self.photoLoaded)
-                    }
-                }
-            }
-        })
+        Nuke.loadImage(with: URL(string: self.photos[indexPath.row].image!)!, options: loadImageOptions, into: cell.imageView)
         return cell
 
     }
@@ -360,7 +352,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
             if newAvatar != nil {
                 reusableview.imageView.image = newAvatar;
             }else if self.customer?.avatar != nil && self.customer?.avatar != "" {
-                 reusableview.imageView.load(url: URL(string:self.customer!.avatar!)!);
+                Nuke.loadImage(with: URL(string: (self.customer?.avatar!)!)!, options: loadImageOptions, into: reusableview.imageView)
             }else {
                 reusableview.imageView.image = UIImage(named: "default-profile");
             }
@@ -370,6 +362,9 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
            
             reusableview.nameLbl.text = self.customer?.name;
             reusableview.addressLbl.text = self.customer?.address;
+            reusableview.birthdayLbl.text = self.customer?.birthday;
+            reusableview.phoneLbl.text = self.customer?.phone;
+            reusableview.genderLbl.text = self.customer?.gender == 1 ? "Male" : "Female";
             return reusableview
             
             
@@ -403,6 +398,16 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5);
+    }
+    
+    // MARK: scrolldelegate
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset)
+        if scrollView.contentOffset.y > 160 {
+            self.navigationItem.title = self.customer?.name;
+        }else{
+            self.navigationItem.title = "";
+        }
     }
 
 }
