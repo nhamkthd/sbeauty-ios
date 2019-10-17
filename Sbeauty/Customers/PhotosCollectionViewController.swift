@@ -77,7 +77,9 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         getPhots();
         loadImageOptions = ImageLoadingOptions(
             placeholder: UIImage(named: "default-thumbnail"),
-            transition: .fadeIn(duration: 0.33)
+            transition: .fadeIn(duration: 0.33),
+            failureImage:UIImage(named: "file-not-found"),
+            contentModes: nil
         )
         // Do any additional setup after loading the view.
     }

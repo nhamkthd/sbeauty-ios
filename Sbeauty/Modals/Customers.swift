@@ -77,7 +77,7 @@ struct Photos: Codable {
 struct Photo: Codable{
     var id:Int!;
     var customer_id: Int?;
-    var image:String?;
+    var image:String!;
     var created_at:String?;
     var updated_at:String?;
     var deleted_at:String?;

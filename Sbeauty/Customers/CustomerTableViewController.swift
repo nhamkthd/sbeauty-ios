@@ -188,7 +188,6 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
                     self.page = self.page + 1;
                     self.getListCustomers(search: nil)
                 }
-                
             }
             print("\(self.page ?? 1)")
         }
@@ -196,6 +195,9 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == self.tableView {
             self.lastKnowContentOfsset = scrollView.contentOffset.y
+            if scrollView.contentOffset.y < -100 {
+                self.getListCustomers(search: "");
+            }
             print("lastKnowContentOfsset: ", scrollView.contentOffset.y)
         }
     }

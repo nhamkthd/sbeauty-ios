@@ -7,30 +7,44 @@
 ////
 
 import UIKit
-import EFImageViewZoom;
 import Nuke;
-class ViewPhotoViewController: UIViewController, EFImageViewZoomDelegate {
+class ViewPhotoViewController: UIViewController {
 
-    @IBOutlet weak var efViewZoom: EFImageViewZoom!
-
-    var index:Int!;
-    var photo:Photo?;
-    var image:UIImage?;
+    @IBOutlet weak var dateLbl: UILabel!
+    @IBOutlet weak var imageZoomView: ImageZoomView!
     
+    var index:Int!
+    var photo:Photo!
+    var image:UIImage?
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        efViewZoom._delegate  = self;
         let options = ImageLoadingOptions(
             placeholder: UIImage(named: "default-thumbnail"),
-            transition: .fadeIn(duration: 0.33)
+            transition: .fadeIn(duration: 0.33),
+            failureImage:UIImage(named: "file-not-found"),
+            contentModes:nil
         )
+        
         if image != nil {
-            efViewZoom.image = image;
-        }else{
-//            efViewZoom.imageView.load(url:URL(string: (self.photo?.image!)!)!)
-            Nuke.loadImage(with: URL(string: (self.photo?.image!)!)!, options: options, into:efViewZoom.imageView)
+            imageZoomView.imageView.image = image;
+           
+        }else {
+            if let url:URL = URL(string: self.photo.image){
+                Nuke.loadImage(with:url , options: options, into:imageZoomView.imageView,progress: nil, completion: {result in
+                   print("load image completed")
+                    DispatchQueue.main.async {
+                        let imageSize = self.imageZoomView.imageView.image!.size;
+                        self.imageZoomView.imageView.sizeThatFits(imageSize);
+                        var imageViewCenter = self.imageZoomView.imageView.center;
+                        imageViewCenter.y = CGRect(origin: self.imageZoomView.frame.origin, size: self.imageZoomView.frame.size).midY
+                        self.imageZoomView.imageView.center = imageViewCenter;
+                    }
+                  
+                })
+            }
+
         }
+        self.dateLbl.text = self.photo.created_at;
     }
     /*
     // MARK: - Navigation

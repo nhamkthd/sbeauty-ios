@@ -8,6 +8,8 @@
 
 import UIKit
 
+let borderColor:UIColor = UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.0);
+
 class PhotoCollectionReusableView: UICollectionReusableView {
         
     @IBOutlet weak var imageView: UIImageView!
@@ -28,8 +30,8 @@ class PhotoCollectionReusableView: UICollectionReusableView {
         self.phoneLbl.textColor = SColor().colorWithName(name: .secondary)
         self.genderLbl.textColor = SColor().colorWithName(name: .secondary)
         self.birthdayLbl.textColor = SColor().colorWithName(name: .secondary)
-        self.photoTileView.addBorder(side: .bottom, color: SColor().colorWithName(name: .secondary), width: 0.5)
-        self.profileTitleView.addBorder(side: .bottom, color: SColor().colorWithName(name: .secondary), width: 0.5)
+        self.photoTileView.addBorder(side: .top, color: borderColor, width: 0.5)
+        self.profileTitleView.addBorder(side: .top, color:borderColor, width: 0.5)
         
     }
 }

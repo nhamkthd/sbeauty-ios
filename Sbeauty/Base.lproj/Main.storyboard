@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,23 +13,23 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="SBeauty" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-h0-aKF" customClass="STextField" customModule="Sbeauty" customModuleProvider="target">
-                                <rect key="frame" x="20" y="240" width="374" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-h0-aKF" customClass="STextField" customModule="SBeauty" customModuleProvider="target">
+                                <rect key="frame" x="20" y="240" width="374" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hxP-Jr-e84" customClass="STextField" customModule="Sbeauty" customModuleProvider="target">
-                                <rect key="frame" x="20" y="304" width="374" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hxP-Jr-e84" customClass="STextField" customModule="SBeauty" customModuleProvider="target">
+                                <rect key="frame" x="20" y="300" width="374" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc3-rd-wZo" customClass="SButton" customModule="Sbeauty" customModuleProvider="target">
-                                <rect key="frame" x="20" y="378" width="374" height="28"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nc3-rd-wZo" customClass="SButton" customModule="SBeauty" customModuleProvider="target">
+                                <rect key="frame" x="20" y="370" width="374" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Đăng nhập"/>
                                 <connections>
@@ -75,17 +77,17 @@
         <!--Khách hàng-->
         <scene sceneID="j3T-Fc-eO9">
             <objects>
-                <tableViewController storyboardIdentifier="CustomersTable" id="5el-bG-ENC" customClass="CustomerTableViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CustomersTable" id="5el-bG-ENC" customClass="CustomerTableViewController" customModule="SBeauty" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1oD-da-CSn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerCell" rowHeight="76" id="0r9-7k-iDh" customClass="CustomerTableViewCell" customModule="Sbeauty" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerCell" rowHeight="76" id="0r9-7k-iDh" customClass="CustomerTableViewCell" customModule="SBeauty" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0r9-7k-iDh" id="4MM-0C-K63">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="75.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Gu-Wz-v29">
@@ -154,9 +156,9 @@
         <!--Title-->
         <scene sceneID="9la-xV-Bw7">
             <objects>
-                <collectionViewController id="Qxe-dr-5w8" customClass="PhotosCollectionViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="Qxe-dr-5w8" customClass="PhotosCollectionViewController" customModule="SBeauty" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="gEF-9W-0aO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Va5-4k-0T8">
@@ -166,7 +168,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="nor-gl-Bu4" customClass="PhotoCollectionViewCell" customModule="Sbeauty" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="nor-gl-Bu4" customClass="PhotoCollectionViewCell" customModule="SBeauty" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="500" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -189,7 +191,7 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="PhotoHeaderCell" id="5JV-wG-XpA" customClass="PhotoCollectionReusableView" customModule="Sbeauty" customModuleProvider="target">
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="PhotoHeaderCell" id="5JV-wG-XpA" customClass="PhotoCollectionReusableView" customModule="SBeauty" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="500"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
@@ -219,7 +221,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="eWa-EU-y6O" secondAttribute="trailing" constant="20" id="6qe-pq-lDp"/>
                                                 <constraint firstItem="eWa-EU-y6O" firstAttribute="leading" secondItem="fcx-vf-Pck" secondAttribute="leading" constant="5" id="YWF-0b-ouG"/>
@@ -252,7 +254,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="Gsk-6z-l7q" firstAttribute="centerY" secondItem="blC-v0-VL8" secondAttribute="centerY" id="48E-gA-Pfv"/>
                                                 <constraint firstItem="blC-v0-VL8" firstAttribute="leading" secondItem="8NR-LO-KB7" secondAttribute="leading" constant="5" id="6KD-za-jNk"/>
@@ -289,7 +291,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="0FP-Dd-V4c" firstAttribute="leading" secondItem="fZN-hz-kga" secondAttribute="trailing" constant="5" id="9i6-i5-lK2"/>
                                                 <constraint firstAttribute="trailing" secondItem="jhX-D4-zB2" secondAttribute="trailing" constant="20" id="FY3-Sh-Y19"/>
@@ -326,7 +328,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="kVv-E5-nd0" firstAttribute="leading" secondItem="bBO-Vy-Tl5" secondAttribute="trailing" constant="10" id="Rde-1b-0J0"/>
                                                 <constraint firstItem="bBO-Vy-Tl5" firstAttribute="centerY" secondItem="k0B-yR-Dmc" secondAttribute="centerY" id="Tzz-SM-3BZ"/>
@@ -363,7 +365,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="bf5-fj-wL6" firstAttribute="leading" secondItem="4cC-Kk-dmd" secondAttribute="trailing" constant="5" id="0mt-EJ-oll"/>
                                                 <constraint firstItem="4cC-Kk-dmd" firstAttribute="leading" secondItem="gC4-nI-O9H" secondAttribute="leading" constant="5" id="B8K-4b-sZB"/>
@@ -384,7 +386,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="dR7-2I-V6Q" firstAttribute="centerY" secondItem="g7S-jF-eHO" secondAttribute="centerY" id="Cp3-24-Hk4"/>
                                                 <constraint firstAttribute="trailing" secondItem="dR7-2I-V6Q" secondAttribute="trailing" id="GsL-Zl-cFQ"/>
@@ -442,19 +444,19 @@
         <!--Photo Container View Controller-->
         <scene sceneID="qdw-UW-zud">
             <objects>
-                <viewController id="NG7-IE-sCe" customClass="PhotoContainerViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NG7-IE-sCe" customClass="PhotoContainerViewController" customModule="SBeauty" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sQK-Oo-MBe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e5q-Ps-uXV">
-                                <rect key="frame" x="0.0" y="56" width="414" height="752"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <connections>
                                     <segue destination="BOh-Nd-SNo" kind="embed" identifier="" id="70p-wu-HzC"/>
                                 </connections>
                             </containerView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="YX4-qy-dRV">
-                                <rect key="frame" x="0.0" y="741" width="414" height="37"/>
+                                <rect key="frame" x="0.0" y="795" width="414" height="37"/>
                             </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -478,40 +480,59 @@
             </objects>
             <point key="canvasLocation" x="4967" y="-315"/>
         </scene>
-        <!--Photo viewer-->
-        <scene sceneID="UlA-Lp-AS1">
-            <objects>
-                <viewController storyboardIdentifier="ViewPhotoStoryboard" id="L0m-0h-FTo" customClass="ViewPhotoViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="PuW-iu-JZS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Igo-2d-mbj" customClass="EFImageViewZoom" customModule="EFImageViewZoom">
-                                <rect key="frame" x="20" y="18" width="394" height="800"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="eBU-uV-bdH"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Photo viewer" id="Qol-ga-fKT"/>
-                    <connections>
-                        <outlet property="efViewZoom" destination="Igo-2d-mbj" id="mUX-BR-GfC"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3Lf-WW-DSU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6692.753623188406" y="-298.66071428571428"/>
-        </scene>
         <!--Photo Page Container View Controller-->
         <scene sceneID="ZDC-tB-I6Q">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="BOh-Nd-SNo" customClass="PhotoPageContainerViewController" customModule="Sbeauty" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="BOh-Nd-SNo" customClass="PhotoPageContainerViewController" customModule="SBeauty" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="WP0-qC-nvr"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mKy-cV-OgG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5922" y="-315"/>
+        </scene>
+        <!--View Photo View Controller-->
+        <scene sceneID="q3S-2z-tRx">
+            <objects>
+                <viewController storyboardIdentifier="ViewPhotoStoryboard" id="mvR-AB-4D6" customClass="ViewPhotoViewController" customModule="SBeauty" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="e6r-bg-MWJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18l-gQ-B8b" customClass="ImageZoomView" customModule="SBeauty" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPU-sw-F5X">
+                                        <rect key="frame" x="0.0" y="40" width="414" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="gPU-sw-F5X" firstAttribute="leading" secondItem="18l-gQ-B8b" secondAttribute="leading" id="DUa-tx-zGp"/>
+                                    <constraint firstItem="gPU-sw-F5X" firstAttribute="top" secondItem="18l-gQ-B8b" secondAttribute="top" constant="40" id="Fhx-cw-Atp"/>
+                                    <constraint firstAttribute="trailing" secondItem="gPU-sw-F5X" secondAttribute="trailing" id="eYk-Kb-c08"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="18l-gQ-B8b" firstAttribute="top" secondItem="K2g-HI-vs6" secondAttribute="top" id="9hY-Qm-jyC"/>
+                            <constraint firstItem="K2g-HI-vs6" firstAttribute="trailing" secondItem="18l-gQ-B8b" secondAttribute="trailing" id="S2F-t9-ad2"/>
+                            <constraint firstItem="18l-gQ-B8b" firstAttribute="leading" secondItem="K2g-HI-vs6" secondAttribute="leading" id="Uu9-HF-ggY"/>
+                            <constraint firstItem="K2g-HI-vs6" firstAttribute="bottom" secondItem="18l-gQ-B8b" secondAttribute="bottom" id="nss-Pl-6gW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="K2g-HI-vs6"/>
+                    </view>
+                    <connections>
+                        <outlet property="dateLbl" destination="gPU-sw-F5X" id="Cdm-wa-qge"/>
+                        <outlet property="imageZoomView" destination="18l-gQ-B8b" id="wXW-Jp-I2j"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="edj-bT-lof" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6673.913043478261" y="-304.01785714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZXr-hf-prZ">
@@ -519,7 +540,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="V13-gP-993" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fVM-JS-4Tg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

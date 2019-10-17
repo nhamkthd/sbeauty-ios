@@ -1,6 +1,0 @@
-framework module EFImageViewZoom {
-  umbrella header "EFImageViewZoom-umbrella.h"
-
-  export *
-  module * { export * }
-}
