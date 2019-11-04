@@ -16,6 +16,7 @@
 		21ECAA1E2350D029001D2DA3 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECAA1D2350D029001D2DA3 /* PhotoCollectionViewCell.swift */; };
 		21ECAA202350D30B001D2DA3 /* PhotoCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECAA1F2350D30B001D2DA3 /* PhotoCollectionReusableView.swift */; };
 		21F1324D234F7B100032E513 /* RestApiDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F1324C234F7B100032E513 /* RestApiDefine.swift */; };
+		21F618C523669E2B00D5A373 /* CustomerServiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F618C423669E2B00D5A373 /* CustomerServiceTableViewCell.swift */; };
 		21F74C6D234F0718000C60A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C6C234F0718000C60A0 /* AppDelegate.swift */; };
 		21F74C6F234F0718000C60A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C6E234F0718000C60A0 /* ViewController.swift */; };
 		21F74C72234F0718000C60A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21F74C70234F0718000C60A0 /* Main.storyboard */; };
@@ -35,11 +36,10 @@
 		21F74C9E2350230D000C60A0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C9D2350230D000C60A0 /* Constants.swift */; };
 		21F74CA023504195000C60A0 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74C9F23504195000C60A0 /* Authentication.swift */; };
 		21F74CA223507C96000C60A0 /* SImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F74CA123507C96000C60A0 /* SImagePicker.swift */; };
-		68B17B34B3D07686DDF35CE7 /* Pods_Sbeauty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B19738D849B0107741772B7 /* Pods_Sbeauty.framework */; };
+		6D16F2A89745AA9A138C8BE5 /* Pods_Sbeauty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAFEE8B332D1343798992D1 /* Pods_Sbeauty.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B19738D849B0107741772B7 /* Pods_Sbeauty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sbeauty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2114795323581D19004644F5 /* ImageZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
 		21196CCA2356146D00F69287 /* PhotoContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContainerViewController.swift; sourceTree = "<group>"; };
 		213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPageContainerViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +49,7 @@
 		21ECAA1D2350D029001D2DA3 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		21ECAA1F2350D30B001D2DA3 /* PhotoCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionReusableView.swift; sourceTree = "<group>"; };
 		21F1324C234F7B100032E513 /* RestApiDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestApiDefine.swift; sourceTree = "<group>"; };
+		21F618C423669E2B00D5A373 /* CustomerServiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerServiceTableViewCell.swift; sourceTree = "<group>"; };
 		21F74C69234F0718000C60A0 /* SBeauty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SBeauty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21F74C6C234F0718000C60A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21F74C6E234F0718000C60A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,8 +71,9 @@
 		21F74C9D2350230D000C60A0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		21F74C9F23504195000C60A0 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		21F74CA123507C96000C60A0 /* SImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SImagePicker.swift; sourceTree = "<group>"; };
-		B0AF3363528372F741493F20 /* Pods-Sbeauty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.debug.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.debug.xcconfig"; sourceTree = "<group>"; };
-		E5CE9EECACA475CCEF7E2EA1 /* Pods-Sbeauty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.release.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.release.xcconfig"; sourceTree = "<group>"; };
+		5666AB05577A7695618CBBAE /* Pods-Sbeauty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.release.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.release.xcconfig"; sourceTree = "<group>"; };
+		56B8B9E2DFEAED192B6914CF /* Pods-Sbeauty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sbeauty.debug.xcconfig"; path = "Target Support Files/Pods-Sbeauty/Pods-Sbeauty.debug.xcconfig"; sourceTree = "<group>"; };
+		BCAFEE8B332D1343798992D1 /* Pods_Sbeauty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sbeauty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,20 +81,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68B17B34B3D07686DDF35CE7 /* Pods_Sbeauty.framework in Frameworks */,
+				6D16F2A89745AA9A138C8BE5 /* Pods_Sbeauty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		031E21FF70AC21D21946A1EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCAFEE8B332D1343798992D1 /* Pods_Sbeauty.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		21F74C60234F0718000C60A0 = {
 			isa = PBXGroup;
 			children = (
 				21F74C6B234F0718000C60A0 /* Sbeauty */,
 				21F74C6A234F0718000C60A0 /* Products */,
 				44BA4378057EACEC64010017 /* Pods */,
-				24E25AE02A9EBFD4AC0243EB /* Frameworks */,
+				031E21FF70AC21D21946A1EC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,6 +143,7 @@
 				21F74CA123507C96000C60A0 /* SImagePicker.swift */,
 				21ECAA1D2350D029001D2DA3 /* PhotoCollectionViewCell.swift */,
 				21ECAA1F2350D30B001D2DA3 /* PhotoCollectionReusableView.swift */,
+				21F618C423669E2B00D5A373 /* CustomerServiceTableViewCell.swift */,
 				21EB128823531A1A0092E9B8 /* CustomerTableViewCell.swift */,
 				2114795323581D19004644F5 /* ImageZoomView.swift */,
 			);
@@ -180,19 +191,11 @@
 			name = Commons;
 			sourceTree = "<group>";
 		};
-		24E25AE02A9EBFD4AC0243EB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1B19738D849B0107741772B7 /* Pods_Sbeauty.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		44BA4378057EACEC64010017 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B0AF3363528372F741493F20 /* Pods-Sbeauty.debug.xcconfig */,
-				E5CE9EECACA475CCEF7E2EA1 /* Pods-Sbeauty.release.xcconfig */,
+				56B8B9E2DFEAED192B6914CF /* Pods-Sbeauty.debug.xcconfig */,
+				5666AB05577A7695618CBBAE /* Pods-Sbeauty.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -204,11 +207,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21F74C7B234F0719000C60A0 /* Build configuration list for PBXNativeTarget "Sbeauty" */;
 			buildPhases = (
-				578D2552EE790ABA78209CB1 /* [CP] Check Pods Manifest.lock */,
+				AB5B26159FE93DF494937FD3 /* [CP] Check Pods Manifest.lock */,
 				21F74C65234F0718000C60A0 /* Sources */,
 				21F74C66234F0718000C60A0 /* Frameworks */,
 				21F74C67234F0718000C60A0 /* Resources */,
-				358233AC70D5B496898039BC /* [CP] Embed Pods Frameworks */,
+				7F3194D2C483666328927EE7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -267,7 +270,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		358233AC70D5B496898039BC /* [CP] Embed Pods Frameworks */ = {
+		7F3194D2C483666328927EE7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,7 +287,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sbeauty/Pods-Sbeauty-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		578D2552EE790ABA78209CB1 /* [CP] Check Pods Manifest.lock */ = {
+		AB5B26159FE93DF494937FD3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -324,6 +327,7 @@
 				213FE4552354AD99002EC569 /* PhotoPageContainerViewController.swift in Sources */,
 				21F74C9A23501A92000C60A0 /* SColors.swift in Sources */,
 				21F74C8E234F1B6C000C60A0 /* SpinnerViewController.swift in Sources */,
+				21F618C523669E2B00D5A373 /* CustomerServiceTableViewCell.swift in Sources */,
 				21196CCB2356146D00F69287 /* PhotoContainerViewController.swift in Sources */,
 				21F74C9C23501C48000C60A0 /* Enums.swift in Sources */,
 				21F74CA023504195000C60A0 /* Authentication.swift in Sources */,
@@ -480,9 +484,10 @@
 		};
 		21F74C7C234F0719000C60A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B0AF3363528372F741493F20 /* Pods-Sbeauty.debug.xcconfig */;
+			baseConfigurationReference = 56B8B9E2DFEAED192B6914CF /* Pods-Sbeauty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KREB2MXHVA;
 				INFOPLIST_FILE = Sbeauty/Info.plist;
@@ -493,6 +498,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sbeauty.app;
 				PRODUCT_NAME = SBeauty;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -500,9 +506,10 @@
 		};
 		21F74C7D234F0719000C60A0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E5CE9EECACA475CCEF7E2EA1 /* Pods-Sbeauty.release.xcconfig */;
+			baseConfigurationReference = 5666AB05577A7695618CBBAE /* Pods-Sbeauty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KREB2MXHVA;
 				INFOPLIST_FILE = Sbeauty/Info.plist;
@@ -513,6 +520,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sbeauty.app;
 				PRODUCT_NAME = SBeauty;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

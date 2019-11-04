@@ -51,6 +51,7 @@ PODS:
     - SDWebImage
     - SDWebImageFLPlugin
   - FLAnimatedImage (1.0.12)
+  - iOSDropDown (0.3.4)
   - Nuke (8.3.0)
   - SDWebImage (5.2.3):
     - SDWebImage/Core (= 5.2.3)
@@ -62,6 +63,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-rc.2)
   - DKImagePickerController
+  - iOSDropDown
   - Nuke
 
 SPEC REPOS:
@@ -72,6 +74,7 @@ SPEC REPOS:
     - DKImagePickerController
     - DKPhotoGallery
     - FLAnimatedImage
+    - iOSDropDown
     - Nuke
     - SDWebImage
     - SDWebImageFLPlugin
@@ -83,10 +86,11 @@ SPEC CHECKSUMS:
   DKImagePickerController: 6ffad961c212b0debf644f3d1aa72d0a2ee03d5f
   DKPhotoGallery: 0290d32343574f06eaa4c26f8f2f8a1035e916be
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  iOSDropDown: c10a761f9a00c3f1cc9d3bce43ae504628e2f692
   Nuke: 775e35cf3c12cde80b3bff5fc7a77abb0cf29d0b
   SDWebImage: 46a7f73228f84ce80990c786e4372cf4db5875ce
   SDWebImageFLPlugin: cf3f4ae49f249dd785129346fd61bbc8433a88cf
 
-PODFILE CHECKSUM: 55e815a3ba2f659df41b1df21b1d57957b582f88
+PODFILE CHECKSUM: b106a9ca63fe081796e531bb7c325172baa8c0ee
 
 COCOAPODS: 1.8.3

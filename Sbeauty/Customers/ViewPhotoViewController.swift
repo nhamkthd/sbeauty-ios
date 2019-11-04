@@ -44,6 +44,7 @@ class ViewPhotoViewController: UIViewController {
             }
 
         }
+        self.dateLbl.textAlignment = .center;
         self.dateLbl.text = self.photo.created_at;
     }
     /*

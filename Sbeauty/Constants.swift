@@ -10,4 +10,5 @@ import Foundation
 
 struct Constants {
     static let AUTHENTICATION_USER_DEFAULT:String = "AUTHENTICATION_USER_DEFAULT";
+    static let BRANCH_HOST:String = "BRANCH_HOST";
 }

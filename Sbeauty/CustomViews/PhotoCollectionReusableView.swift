@@ -10,7 +10,8 @@ import UIKit
 
 let borderColor:UIColor = UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.0);
 
-class PhotoCollectionReusableView: UICollectionReusableView {
+
+class PhotoCollectionReusableView: UICollectionReusableView, UITableViewDelegate, UITableViewDataSource {
         
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLbl:UILabel!
@@ -21,6 +22,12 @@ class PhotoCollectionReusableView: UICollectionReusableView {
     
     @IBOutlet weak var profileTitleView: UIView!
     @IBOutlet weak var photoTileView: UIView!
+      @IBOutlet weak var servicesTitleView: UIView!
+    
+    @IBOutlet weak var servicesTableView: UITableView!
+    
+    var services:[Services] = [];
+    
     override func awakeFromNib() {
         super.awakeFromNib();
         self.imageView.layer.cornerRadius = 80;
@@ -30,11 +37,63 @@ class PhotoCollectionReusableView: UICollectionReusableView {
         self.phoneLbl.textColor = SColor().colorWithName(name: .secondary)
         self.genderLbl.textColor = SColor().colorWithName(name: .secondary)
         self.birthdayLbl.textColor = SColor().colorWithName(name: .secondary)
+        
         self.photoTileView.addBorder(side: .top, color: borderColor, width: 0.5)
         self.profileTitleView.addBorder(side: .top, color:borderColor, width: 0.5)
+        self.servicesTitleView.addBorder(side: .top, color:borderColor, width: 0.5)
+        
+        self.servicesTableView.separatorInset = UIEdgeInsets(top: 0, left:0, bottom: 0, right: 0)
+        self.servicesTableView.separatorColor = UIColor.clear;
+        self.servicesTableView.separatorStyle = .none;
+        self.servicesTableView.delegate = self;
+        self.servicesTableView.dataSource = self;
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(getDetailSuccess),
+                         name: NSNotification.Name ("customer.get.detail"),object: nil)
         
     }
+    
+    @objc func getDetailSuccess(_ notification: Notification){
+        if let data = notification.userInfo?["Services"] {
+            self.services = data as! [Services];
+            DispatchQueue.main.async {
+                self.servicesTableView.reloadData();
+            }
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1;
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return services.count > 0 ? services.count : 1;
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return  services.count > 0 ? 40 : 100
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ServiceCell", for: indexPath) as! CustomerServiceTableViewCell
+     
+        if services.count > 0  {
+            cell.nameLbl.text = services[indexPath.row].name;
+            cell.quantityLbl?.textColor = SColor().colorWithName(name:.pimary)
+            cell.quantityLbl?.text =  "\(services[indexPath.row].use_quantity)/\(services[indexPath.row].quantity)";
+        }else {
+            cell.nameLbl?.text = "Khách hàng chưa đăng ký dịch vụ nào...";
+            cell.nameLbl?.textColor = SColor().colorWithName(name:.mainText)
+            cell.quantityLbl?.text = "";
+           
+        }
+        return cell;
+    }
 }
+
+
+
 
 extension UIView {
     public func addBorder(side: BorderSide, color: UIColor, width: CGFloat) {

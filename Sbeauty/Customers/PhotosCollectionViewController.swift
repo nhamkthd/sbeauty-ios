@@ -51,10 +51,10 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicke = SImagePicker(presentationController: self, delegate: self)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
+//        dkimagePickerController.allowSwipeToSelect = true;
+        dkimagePickerController.showsCancelButton = true;
+    
+        getCustomerServices();
         //Define Layout here
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
@@ -65,7 +65,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         
         //set cell item size here
-        layout.itemSize = CGSize(width: width / 3 - 12, height: 120)
+        layout.itemSize = CGSize(width: width / 3 - 12, height: width/3 - 12)
         
         //set Minimum spacing between 2 items
         layout.minimumInteritemSpacing = 4
@@ -74,7 +74,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         layout.minimumLineSpacing = 4
 //        self. = layout;
 //        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        getPhots();
+        getPhotos();
         loadImageOptions = ImageLoadingOptions(
             placeholder: UIImage(named: "default-thumbnail"),
             transition: .fadeIn(duration: 0.33),
@@ -114,7 +114,34 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
     
     // MARK: - rest api request
     
-    func getPhots() {
+    func getCustomerServices() {
+        let getUrlString = apiDef.getApiStringUrl(apiName: .getCustomerDetail)
+        guard let url = URL(string:  getUrlString.appending("/\(self.customer?.id ?? 0)")) else {return}
+        rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type");
+        let isAuth = auth.isLogged();
+        if isAuth.0 {
+            rest.requestHttpHeaders.add(value: "\(isAuth.1?.token_type ?? "") \(isAuth.1?.access_token ?? "")", forKey: "Authorization")
+            rest.makeRequest(toURL: url, withHttpMethod: .get, completion: {(results) in
+                if results.response?.httpStatusCode == 200 {
+                    if let data = results.data {
+                        do {
+                            let decoder = JSONDecoder()
+                            let customerDetailData = try! decoder.decode(CustomerDetailData.self, from: data)
+                            if let customerDetail = customerDetailData.data {
+                                NotificationCenter.default.post(name: NSNotification.Name("customer.get.detail"), object: self, userInfo: ["Services":customerDetail.detail_service_avaiables])
+                                DispatchQueue.main.async {
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+    }
+    
+    func getPhotos() {
         
         showSpiner()
         let getUrlString = apiDef.getApiStringUrl(apiName: .getCustomerPhotos)
@@ -147,6 +174,8 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         });
     }
     
+   
+    
     
     func postPhoto(images:[UIImage], url:URL) {
         
@@ -163,13 +192,13 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                 if self.isPostPhotos {
                     var index:Int = 0;
                     for image in images {
-                        multipartFromData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image[\(index)]",fileName: "photo_\(index)", mimeType: "image/jpeg");
+                        multipartFromData.append(image.jpegData(compressionQuality: 0.3)!, withName: "image[\(index)]",fileName: "photo_\(index)", mimeType: "image/jpeg");
                         index = index + 1;
                     }
                     
                     multipartFromData.append("\(self.customer?.id ?? 0)".data(using: .utf8)!, withName: "customer_id");
                 }else {
-                    multipartFromData.append(images[0].jpegData(compressionQuality: 0.5)!, withName: "image",fileName: "avatar", mimeType: "image/jpeg" );
+                    multipartFromData.append(images[0].jpegData(compressionQuality: 0.3)!, withName: "image",fileName: "avatar", mimeType: "image/jpeg" );
                 }
             }, to: url,
                method: .post,
@@ -179,8 +208,8 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                 
                 switch response.result {
                 case .success(let data):
-                    do {
-                        let jsonRes =  try! JSONSerialization.jsonObject(with: data!, options: [])
+                    
+                    if let jsonRes = try? JSONSerialization.jsonObject(with:data!, options:[]) {
                         if let object = jsonRes as? [String : Any] {
                             if let rest = object["data"] as? String{
                                 print(rest);
@@ -189,7 +218,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                                     if self.isPostPhotos {
                                         self.photos.removeAll();
                                         if self.isUploading == false {
-                                            self.getPhots();
+                                            self.getPhotos();
                                         }
                                     }else {
                                         if let url = URL(string: rest){
@@ -208,7 +237,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                                 print(rest)
                                 DispatchQueue.main.async {
                                     self.dismissUploadingAlert();
-                                    let alertController = UIAlertController(title: "Alert", message:rest, preferredStyle: .alert)
+                                    let alertController = UIAlertController(title: "Upload Failed", message:rest, preferredStyle: .alert)
                                     let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
                                         print("You've pressed ok");
                                     }
@@ -216,6 +245,16 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                                     self.present(alertController, animated: true, completion: nil)
                                 }
                             }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.dismissUploadingAlert();
+                            let alertController = UIAlertController(title: "Upload Failed", message:"Oops..something went wrong!", preferredStyle: .alert)
+                            let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
+                                print("You've pressed ok");
+                            }
+                            alertController.addAction(action1);
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     break;
@@ -233,6 +272,9 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         }
         
     }
+    
+    
+
     
     // MARK: - actions
     
@@ -272,6 +314,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         var images:[UIImage] = [];
         
         for asset in assets {
+            
             asset.fetchOriginalImage(completeBlock: {image, info in
                 if let img = image{
                     images.append(img);
@@ -298,7 +341,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         dkimagePickerController.didSelectAssets = { [unowned self] (assets: [DKAsset]) in
             self.updateAssets(assets: assets)
         }
-        
+
         if UI_USER_INTERFACE_IDIOM() == .pad {
             dkimagePickerController.modalPresentationStyle = .formSheet
         }
@@ -427,6 +470,7 @@ class AssetClickHandler: DKImagePickerControllerBaseUIDelegate {
         //use this place for asset deselection customisation
         print("didClickAsset for deselection")
     }
+    
 }
 
 

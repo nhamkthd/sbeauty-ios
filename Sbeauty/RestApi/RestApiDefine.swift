@@ -10,7 +10,7 @@ import Foundation
 
 class RestApiDefine {
     
-     let _host = "http://45.77.174.252:8080";
+   
     
     enum AppApiName: String {
         case login
@@ -24,6 +24,11 @@ class RestApiDefine {
     }
 
     func getApiStringUrl(apiName: AppApiName) -> String {
+        var _host:String = "http://45.77.174.252:8080";
+        let branchUserDefault =  UserDefaults.standard;
+        if let branchHost = branchUserDefault.value(forKey: Constants.BRANCH_HOST) {
+            _host = branchHost as! String
+        }
         switch apiName {
         case .login:
             return "\(_host)/api/auth/login";
@@ -34,7 +39,7 @@ class RestApiDefine {
         case .getCustomerPhotos:
             return "\(_host)/api/customers/list-image";
         case .getCustomerDetail:
-            return "\(_host)";
+            return "\(_host)/api/customers";
         case .addCustomerPhotos:
             return "\(_host)/api/customers/upload-image";
         case .addCustomerProfilePicture:

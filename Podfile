@@ -8,6 +8,7 @@ target 'Sbeauty' do
   # Pods for Sbeauty
   pod 'Alamofire', '~> 5.0.0-rc.2'
   pod 'DKImagePickerController'
+  pod 'iOSDropDown'
   # pod 'EFImageViewZoom'
   pod 'Nuke'
 

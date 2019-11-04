@@ -9,6 +9,7 @@
 import Foundation
 import UIKit;
 
+//customers list
 struct GetListCutomersData: Codable {
     var data:Customers?
     var message:String?
@@ -54,8 +55,14 @@ struct Note: Codable{
 
 }
 
+//customer photos
 struct PhotoData: Codable {
     var data:Photos?
+    var message:String?
+}
+
+struct UploadPhotoResponse: Codable {
+    var data:String?
     var message:String?
 }
 
@@ -83,41 +90,59 @@ struct Photo: Codable{
     var deleted_at:String?;
 }
 
-//class Photo {
-//    var id:Int?
-//    var customer_id:Int?
-//    var imageUrlStr:String?
-//
-//    init(dictionary:[String:Any]) {
-//        self.id = dictionary["id"] as? Int;
-//        self.customer_id = dictionary["customer_id"] as? Int;
-//        self.imageUrlStr = dictionary["image"] as? String;
-//    }
-//}
+// customer detail
+struct CustomerDetailData: Codable {
+    var data:customerDetail?
+    var message:String?
+}
+
+struct customerDetail: Codable {
+    var id:Int
+    var code:String
+    var photo:String?
+    var name:String?
+    var gender:Int?
+    var birthday:String?
+    var address:String?
+    var job:String?
+    var phone:String?
+    var deleted_at:String?
+    var created_at:String
+    var updated_at:String?
+    var avatar:String?
+    var treatment_count:Int
+    var detail_service_avaiables:[Services?]
+    var profiles:[Profile?]
+    var payment:Wellet?
+
+}
 
 
-//class Customer: NSObject {
-//    var id:Int?
-//    var code:String?
-//    var photo:String?
-//    var name:String?
-//    var gender:Int?
-//    var birthday:String?
-//    var address:String?
-//    var job:String?
-//    var phone:String?
-//
-//    init(id:Int?, code:String?, photo:String?, name:String?, gender:Int?, birthday:String?, address:String?, job:String, phone:String?) {
-//
-//        self.id = id;
-//        self.code = code;
-//        self.photo = photo;
-//        self.name = name;
-//        self.gender = gender;
-//        self.birthday = birthday;
-//        self.address = address;
-//        self.job = job;
-//        self.phone = phone;
-//    }
-//
-//}
+struct Services: Codable {
+    var quantity:Int;
+    var use_quantity:Int;
+    var commodity_id:Int;
+    var name:String;
+}
+
+struct Profile: Codable{
+    var id:Int;
+    var customer_id:Int;
+    var status:String?
+    var history:String?
+    var request:String?
+    var skin_type:String?
+    var created_at:String;
+    var updated_at:String?
+    var deleted_at:String?
+}
+
+struct Wellet: Codable {
+    var id:Int;
+    var customer_id:Int;
+    var balance:String;
+    var balance_type:String?;
+    var deleted_at:String?;
+    var created_at:String;
+    var updated_at:String?
+}
