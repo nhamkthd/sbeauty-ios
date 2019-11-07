@@ -40,7 +40,7 @@ class ViewController: UIViewController, UITextFieldDelegate{
         self.errorLabel.textColor = SColor().colorWithName(name: .danger);
         self.errorLabel.isHidden = true;
         self.branchDropDown.selectedRowColor = .white
-        self.branchDropDown.optionArray = ["125 Trung Kính", "83 Thiền Hiền","Develope"];
+        self.branchDropDown.optionArray = ["125 Trung Kính", "83 Thiền Hiền","Develop"];
         self.branchDropDown.optionIds=[0,1,2];
         self.branchDropDown.didSelect{(selectedText , index ,id) in
             print("Selected String: \(selectedText) \n index: \(index)");

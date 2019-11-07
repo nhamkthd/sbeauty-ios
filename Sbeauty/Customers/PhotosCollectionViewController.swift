@@ -170,6 +170,16 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                         }
                     }
                 }
+            } else {
+                DispatchQueue.main.async {
+                    self.removeSpiner();
+                    let alertController = UIAlertController(title: "Get Photos Failed", message:"Response Error \(results.response?.httpStatusCode ?? 0)!", preferredStyle: .alert)
+                    let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
+                        print("You've pressed ok");
+                    }
+                    alertController.addAction(action1);
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         });
     }
@@ -249,7 +259,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                     } else {
                         DispatchQueue.main.async {
                             self.dismissUploadingAlert();
-                            let alertController = UIAlertController(title: "Upload Failed", message:"Oops..something went wrong!", preferredStyle: .alert)
+                            let alertController = UIAlertController(title: "Upload Failed", message:"Response Format Error", preferredStyle: .alert)
                             let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
                                 print("You've pressed ok");
                             }

@@ -4,6 +4,10 @@
 <dict>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Ứng dụng muốn lấy ví trị hiện tại của bạn để chụp ảnh</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Ứng dụng muốn lấy ví trị hiện tại của bạn để chụp ảnh</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
