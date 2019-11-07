@@ -8,7 +8,7 @@
 
 import UIKit
 import iOSDropDown
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate{
     
     let authentcation = SAuthentication();
     let spinerView = SpinnerViewController()
@@ -20,11 +20,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var emailText: STextField! {
         didSet{
             self.emailText.setIcon(UIImage(named: "icons8-user")!);
+            self.emailText.delegate = self;
         }
     }
     @IBOutlet weak var passwordText: STextField! {
         didSet{
             self.passwordText.setIcon(UIImage(named: "icons8-lock")!);
+            self.passwordText.delegate = self;
         }
     }
     @IBOutlet weak var loginButton: SButton! {
@@ -49,7 +51,7 @@ class ViewController: UIViewController {
             } else if index == 1 {
                 branchUserDefault.set("http://207.148.116.171", forKey: Constants.BRANCH_HOST);
             } else {
-                branchUserDefault.set("http://45.77.174.252:8080", forKey: Constants.BRANCH_HOST);
+                branchUserDefault.set("http://45.77.254.229", forKey: Constants.BRANCH_HOST);
             }
             branchUserDefault.synchronize();
         }
@@ -98,6 +100,12 @@ class ViewController: UIViewController {
             self.errorLabel.text = "Email hoặc mật khẩu không được để trống!";
             return;
         }
+    }
+    
+    // --MARK textfield delegate func
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
 }
