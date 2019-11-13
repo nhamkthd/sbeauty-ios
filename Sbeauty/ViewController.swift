@@ -37,6 +37,7 @@ class ViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.setHidesBackButton(true, animated:true);
         self.errorLabel.textColor = SColor().colorWithName(name: .danger);
         self.errorLabel.isHidden = true;
         self.branchDropDown.selectedRowColor = .white

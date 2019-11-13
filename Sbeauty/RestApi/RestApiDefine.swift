@@ -15,6 +15,7 @@ class RestApiDefine {
     enum AppApiName: String {
         case login
         case logout
+        case getMe
         case getCustomers
         case getCustomerDetail
         case getCustomerPhotos
@@ -34,6 +35,8 @@ class RestApiDefine {
             return "\(_host)/api/auth/login";
         case .logout:
             return "\(_host)/api/auth/logout";
+        case .getMe:
+            return "\(_host)/api/auth/me";
         case .getCustomers:
             return  "\(_host)/api/customers";
         case .getCustomerPhotos:

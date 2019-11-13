@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! ViewController
-        let mainViewController = storyboard.instantiateViewController(withIdentifier: "CustomersTable") as! CustomerTableViewController
+        let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         
         //check authentication
         let isAuth = auth.isLogged();
