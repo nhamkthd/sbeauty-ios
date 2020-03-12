@@ -29,6 +29,12 @@ class ViewController: UIViewController, UITextFieldDelegate{
             self.passwordText.delegate = self;
         }
     }
+    @IBOutlet weak var serverIpText: STextField! {
+        didSet{
+            self.serverIpText.setIcon(UIImage(named: "icons8-server")!);
+            self.serverIpText.delegate = self;
+        }
+    }
     @IBOutlet weak var loginButton: SButton! {
         didSet {
             self.loginButton.buttonStyle = .pimary;
@@ -52,7 +58,7 @@ class ViewController: UIViewController, UITextFieldDelegate{
             } else if index == 1 {
                 branchUserDefault.set("http://207.148.116.171", forKey: Constants.BRANCH_HOST);
             } else {
-                branchUserDefault.set("http://45.77.254.229", forKey: Constants.BRANCH_HOST);
+                branchUserDefault.set("http://45.77.174.252", forKey: Constants.BRANCH_HOST);
             }
             branchUserDefault.synchronize();
         }
@@ -73,16 +79,17 @@ class ViewController: UIViewController, UITextFieldDelegate{
     }
   
     @IBAction func loginOnClick(_ sender: Any) {
-        if isBranchSelectd == false {
-            self.errorLabel.isHidden = false;
-            self.errorLabel.text = "Vui lòng chọn chi nhánh!";
-            return;
-        }
+//        if isBranchSelectd == false {
+//            self.errorLabel.isHidden = false;
+//            self.errorLabel.text = "Vui lòng chọn chi nhánh!";
+//            return;
+//        }
+        let serverIp = serverIpText.text;
         let email = emailText.text;
         let password = passwordText.text;
-        if email != "" && password != "" {
+        if email != "" && password != "" && serverIp != "" {
              showSpiner();
-            self.authentcation.login(email: email!, password: password! ,completion:{(result,errMsg) in
+            self.authentcation.login(email: email!, password: password!, serverIP: serverIp! ,completion:{(result,errMsg) in
                 if result{
                     DispatchQueue.main.async() {
                         self.removeSpiner();
@@ -98,7 +105,7 @@ class ViewController: UIViewController, UITextFieldDelegate{
             })
         } else {
             self.errorLabel.isHidden = false;
-            self.errorLabel.text = "Email hoặc mật khẩu không được để trống!";
+            self.errorLabel.text = "Email hoặc mật khẩu hoặc server IP không được để trống!";
             return;
         }
     }

@@ -22,6 +22,7 @@ class CustomerTableViewCell: UITableViewCell {
         customerProfile.clipsToBounds = true
         customerName.textColor = SColor().colorWithName(name: .mainText);
         customerPhone.textColor = SColor().colorWithName(name: .secondary);
+        
         // Initialization code
     }
 

@@ -6,7 +6,7 @@ target 'Sbeauty' do
   use_frameworks!
 
   # Pods for Sbeauty
-  pod 'Alamofire', '~> 5.0.0-rc.2'
+  pod 'Alamofire', '~> 5.0'
   pod 'DKImagePickerController'
   pod 'iOSDropDown'
   # pod 'EFImageViewZoom'

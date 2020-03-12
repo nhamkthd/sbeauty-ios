@@ -12,7 +12,12 @@ class SAuthentication  {
     var rest = RestManager();
     var apiDef = RestApiDefine();
     
-    func login(email:String, password:String, completion: @escaping (_ result: Bool, _ errMsg:String?) -> Void) {
+    func login(email:String, password:String, serverIP:String, completion: @escaping (_ result: Bool, _ errMsg:String?) -> Void) {
+        if serverIP != "" {
+            let sUserDefault = UserDefaults.standard;
+            sUserDefault.set(serverIP, forKey: Constants.SERVER_IP);
+            sUserDefault.synchronize();
+        }
         rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type")
         rest.httpBodyParameters.add(value: email, forKey: "email");
         rest.httpBodyParameters.add(value: password, forKey: "password");
@@ -48,6 +53,36 @@ class SAuthentication  {
                 completion(false,"Sai email hoặc mật khẩu!");
             }
         }
+    }
+    
+    func changePassword(oldPW:String, newPW:String, confirmNewPW:String, comletion: @escaping (_ result: Bool, _ msg:String)->Void) {
+        let getUrlString = apiDef.getApiStringUrl(apiName: .changePassword)
+        guard let url = URL(string: getUrlString) else {return}
+        rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type");
+        rest.requestHttpHeaders.add(value: "XMLHttpRequest", forKey: "X-Requested-With");
+        rest.httpBodyParameters.add(value: oldPW, forKey: "current_password");
+        rest.httpBodyParameters.add(value: newPW, forKey: "new_password");
+        rest.httpBodyParameters.add(value: confirmNewPW, forKey: "new_confirm_password");
+        let isAuth = self.isLogged();
+        if isAuth.0 {
+            rest.requestHttpHeaders.add(value: "\(isAuth.1?.token_type ?? "") \(isAuth.1?.access_token ?? "")", forKey: "Authorization")
+            rest.makeRequest(toURL: url, withHttpMethod: .post, completion: {(results) in
+                if results.response?.httpStatusCode == 200 {
+                    comletion(true,"success");
+                } else {
+                    guard let data = results.data else { return }
+                    do {
+                        let resDict =  try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any];
+                        if let msg:String = resDict!["message"] as? String {
+                            comletion(false,msg)
+                        }
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            });
+        }
+        
     }
     
     func logout() -> Bool{

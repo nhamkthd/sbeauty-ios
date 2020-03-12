@@ -15,7 +15,7 @@ import Nuke;
 
 private let reuseIdentifier = "PhotoCell"
 
-class PhotosCollectionViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout,ImagePickerDelegate {
+class PhotosCollectionViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout,ImagePickerDelegate, UIGestureRecognizerDelegate {
     
     let rest = RestManager();
     let apiDef = RestApiDefine();
@@ -72,9 +72,18 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         
         //set minimum vertical line spacing here between two lines in collectionview
         layout.minimumLineSpacing = 4
-//        self. = layout;
-//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        // register photo long press handle
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressOnPhoto))
+        lpgr.minimumPressDuration = 0.5
+        lpgr.delaysTouchesBegan = true
+        lpgr.delegate = self
+        self.collectionView.addGestureRecognizer(lpgr)
+        
+        //call get list photo request
         getPhotos();
+        
+        //setup loading photo
         loadImageOptions = ImageLoadingOptions(
             placeholder: UIImage(named: "default-thumbnail"),
             transition: .fadeIn(duration: 0.33),
@@ -97,7 +106,7 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         spinerView.removeFromParent();
     }
     func showLoadingAlert() {
-        self.alert = UIAlertController(title: nil, message: "uploading...", preferredStyle: .alert)
+        self.alert = UIAlertController(title: nil, message: "Uploading...", preferredStyle: .alert)
         
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
@@ -126,13 +135,15 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                     if let data = results.data {
                         do {
                             let decoder = JSONDecoder()
-                            let customerDetailData = try! decoder.decode(CustomerDetailData.self, from: data)
+                            let customerDetailData = try decoder.decode(CustomerDetailData.self, from: data)
                             if let customerDetail = customerDetailData.data {
                                 NotificationCenter.default.post(name: NSNotification.Name("customer.get.detail"), object: self, userInfo: ["Services":customerDetail.detail_service_avaiables])
                                 DispatchQueue.main.async {
                                     
                                 }
                             }
+                        } catch{
+                            print("can not decode data!")
                         }
                     }
                 }
@@ -142,7 +153,6 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
     }
     
     func getPhotos() {
-        
         showSpiner()
         let getUrlString = apiDef.getApiStringUrl(apiName: .getCustomerPhotos)
         guard let url = URL(string:  getUrlString.appending("/\(self.customer?.id ?? 0)")) else {return}
@@ -160,13 +170,18 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
                 if let data = results.data{
                     do {
                         let decoder = JSONDecoder()
-                        let photoData = try! decoder.decode(PhotoData.self, from: data)
+                        let photoData = try decoder.decode(PhotoData.self, from: data)
                         if let photos = photoData.data?.data {
                             self.photos = photos;
                             DispatchQueue.main.async {
                                 self.removeSpiner();
                                 self.collectionView.reloadData();
                             }
+                        }
+                    } catch{
+                        DispatchQueue.main.async {
+                            self.removeSpiner();
+                            print("Can not decode photo data..!")
                         }
                     }
                 }
@@ -283,8 +298,35 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
         
     }
     
+    func delelePhoto(photoId:Int){
+        let getUrlString = apiDef.getApiStringUrl(apiName: .deleteCustomerPhoto)
+        guard let url = URL(string:  getUrlString.appending("/\(photoId)")) else {return}
+        rest.requestHttpHeaders.add(value: "application/json", forKey: "Content-Type");
+        let isAuth = auth.isLogged();
+        if isAuth.0 {
+            self.showSpiner();
+            rest.requestHttpHeaders.add(value: "\(isAuth.1?.token_type ?? "") \(isAuth.1?.access_token ?? "")", forKey: "Authorization")
+            rest.makeRequest(toURL: url, withHttpMethod: .delete, completion: {(results) in
+                if results.response?.httpStatusCode == 200 {
+                    DispatchQueue.main.async {
+                        self.removeSpiner();
+                        self.getPhotos();
+                    }
+                }else {
+                    DispatchQueue.main.async {
+                        self.removeSpiner();
+                        let alertController = UIAlertController(title: "Delete photo failed with error code: \(results.response?.httpStatusCode ?? 000)", message:nil, preferredStyle: .alert)
+                        let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
+                            print("You've pressed ok");
+                        }
+                        alertController.addAction(action1);
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                }
+            });
+        }
+    }
     
-
     
     // MARK: - actions
     
@@ -429,10 +471,38 @@ class PhotosCollectionViewController: UICollectionViewController,UICollectionVie
 
     // MARK: UICollectionViewDelegate
     
+    @objc func handleLongPressOnPhoto(gesture : UILongPressGestureRecognizer!) {
+        if gesture.state == .ended {
+            return
+        }
+        if gesture.state == .began {
+            let p = gesture.location(in: self.collectionView)
+            
+            if let indexPath = self.collectionView.indexPathForItem(at: p) {
+                // get the cell at indexPath (the one you long pressed)
+                let optionMenu = UIAlertController(title: nil, message: "Delete this photo", preferredStyle: .actionSheet);
+                let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (UIAlertAction) in
+                    print("delete this photo");
+                    self.delelePhoto(photoId: self.photos[indexPath.row].id);
+                }
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil);
+                optionMenu.addAction(deleteAction);
+                optionMenu.addAction(cancelAction);
+                self.present(optionMenu, animated: true, completion: nil)
+                // do stuff with the cell
+            } else {
+                print("couldn't find index path")
+            }
+        }
+        
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
         self.performSegue(withIdentifier: "ShowPhotoContainer", sender: self)
     }
+
+    
     
     // MARK: UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -486,8 +556,6 @@ class AssetClickHandler: DKImagePickerControllerBaseUIDelegate {
 
 
 extension UIImageView {
-    
-    
     func load(url: URL) {
         self.image = UIImage(named: "default-thumbnail");
         DispatchQueue.global().async { [weak self] in

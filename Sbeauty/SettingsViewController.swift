@@ -65,6 +65,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func configureUI() {
         configureTableView()
+        self.navigationItem.setHidesBackButton(true, animated:true);
 
     }
     
@@ -180,6 +181,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
                 
                 self.present(alert, animated: true)
+            } else if indexPath.row == 0 {
+                self.performSegue(withIdentifier: "ChangePasswordView", sender: self)
             }
         case .Communications:
             print(CommunicationOptions(rawValue: indexPath.row)?.description as Any)

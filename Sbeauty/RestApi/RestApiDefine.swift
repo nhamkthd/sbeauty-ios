@@ -21,14 +21,17 @@ class RestApiDefine {
         case getCustomerPhotos
         case addCustomerPhotos
         case addCustomerProfilePicture
+        case getTreatments
+        case changePassword
+        case deleteCustomerPhoto
         
     }
 
     func getApiStringUrl(apiName: AppApiName) -> String {
-        var _host:String = "http://45.77.174.252:8080";
-        let branchUserDefault =  UserDefaults.standard;
-        if let branchHost = branchUserDefault.value(forKey: Constants.BRANCH_HOST) {
-            _host = branchHost as! String
+        var _host:String = "http://207.148.116.171";
+        let sUserDefault =  UserDefaults.standard;
+        if let serverIP = sUserDefault.value(forKey: Constants.SERVER_IP) {
+            _host = serverIP as! String
         }
         switch apiName {
         case .login:
@@ -37,6 +40,8 @@ class RestApiDefine {
             return "\(_host)/api/auth/logout";
         case .getMe:
             return "\(_host)/api/auth/me";
+        case .changePassword:
+            return "\(_host)/api/auth/change-password";
         case .getCustomers:
             return  "\(_host)/api/customers";
         case .getCustomerPhotos:
@@ -47,6 +52,10 @@ class RestApiDefine {
             return "\(_host)/api/customers/upload-image";
         case .addCustomerProfilePicture:
             return "\(_host)/api/customers/";
+        case .getTreatments:
+            return "\(_host)/api/treatments/list";
+        case .deleteCustomerPhoto:
+            return "\(_host)/api/customers/delete-image";
         }
     }
 }

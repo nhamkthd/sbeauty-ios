@@ -1,32 +1,32 @@
 PODS:
-  - Alamofire (5.0.0-rc.2)
-  - CropViewController (2.5.1)
-  - DKCamera (1.6.4)
-  - DKImagePickerController (4.1.7):
-    - DKImagePickerController/Camera (= 4.1.7)
-    - DKImagePickerController/Core (= 4.1.7)
-    - DKImagePickerController/ImageDataManager (= 4.1.7)
-    - DKImagePickerController/InlineCamera (= 4.1.7)
-    - DKImagePickerController/PhotoEditor (= 4.1.7)
-    - DKImagePickerController/PhotoGallery (= 4.1.7)
-    - DKImagePickerController/Resource (= 4.1.7)
-  - DKImagePickerController/Camera (4.1.7):
+  - Alamofire (5.0.2)
+  - CropViewController (2.5.2)
+  - DKCamera (1.6.6)
+  - DKImagePickerController (4.2.1):
+    - DKImagePickerController/Camera (= 4.2.1)
+    - DKImagePickerController/Core (= 4.2.1)
+    - DKImagePickerController/ImageDataManager (= 4.2.1)
+    - DKImagePickerController/InlineCamera (= 4.2.1)
+    - DKImagePickerController/PhotoEditor (= 4.2.1)
+    - DKImagePickerController/PhotoGallery (= 4.2.1)
+    - DKImagePickerController/Resource (= 4.2.1)
+  - DKImagePickerController/Camera (4.2.1):
     - DKCamera
     - DKImagePickerController/Core
-  - DKImagePickerController/Core (4.1.7):
+  - DKImagePickerController/Core (4.2.1):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.1.7)
-  - DKImagePickerController/InlineCamera (4.1.7):
+  - DKImagePickerController/ImageDataManager (4.2.1)
+  - DKImagePickerController/InlineCamera (4.2.1):
     - DKCamera
     - DKImagePickerController/Core
-  - DKImagePickerController/PhotoEditor (4.1.7):
-    - CropViewController (~> 2.4)
+  - DKImagePickerController/PhotoEditor (4.2.1):
+    - CropViewController (~> 2.5)
     - DKImagePickerController/Core
-  - DKImagePickerController/PhotoGallery (4.1.7):
+  - DKImagePickerController/PhotoGallery (4.2.1):
     - DKImagePickerController/Core
     - DKPhotoGallery
-  - DKImagePickerController/Resource (4.1.7)
+  - DKImagePickerController/Resource (4.2.1)
   - DKPhotoGallery (0.0.14):
     - DKPhotoGallery/Core (= 0.0.14)
     - DKPhotoGallery/Model (= 0.0.14)
@@ -52,16 +52,16 @@ PODS:
     - SDWebImageFLPlugin
   - FLAnimatedImage (1.0.12)
   - iOSDropDown (0.3.4)
-  - Nuke (8.3.0)
-  - SDWebImage (5.2.3):
-    - SDWebImage/Core (= 5.2.3)
-  - SDWebImage/Core (5.2.3)
-  - SDWebImageFLPlugin (0.3.0):
+  - Nuke (8.4.0)
+  - SDWebImage (5.6.0):
+    - SDWebImage/Core (= 5.6.0)
+  - SDWebImage/Core (5.6.0)
+  - SDWebImageFLPlugin (0.4.0):
     - FLAnimatedImage (>= 1.0.11)
-    - SDWebImage/Core (~> 5.0)
+    - SDWebImage/Core (~> 5.6)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.0.0-rc.2)
+  - Alamofire (~> 5.0)
   - DKImagePickerController
   - iOSDropDown
   - Nuke
@@ -80,17 +80,17 @@ SPEC REPOS:
     - SDWebImageFLPlugin
 
 SPEC CHECKSUMS:
-  Alamofire: f9450d3c7f6bea2ad62e7a541c3e9b186c7991d6
-  CropViewController: 10ba7af75e302f2db7eb913f8aa1156f95cfe88e
-  DKCamera: 61fa47629a39354e5111bca1fe96695de020dcb9
-  DKImagePickerController: 6ffad961c212b0debf644f3d1aa72d0a2ee03d5f
+  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
+  CropViewController: 1aac40093c5739e60d992b04724a55d12a689a4c
+  DKCamera: d6fad4db4b25c00eefe6904e9c86a926034d0c62
+  DKImagePickerController: faddfe5b1240ed5fa05b6001169e60ed9b5b2df7
   DKPhotoGallery: 0290d32343574f06eaa4c26f8f2f8a1035e916be
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   iOSDropDown: c10a761f9a00c3f1cc9d3bce43ae504628e2f692
-  Nuke: 775e35cf3c12cde80b3bff5fc7a77abb0cf29d0b
-  SDWebImage: 46a7f73228f84ce80990c786e4372cf4db5875ce
-  SDWebImageFLPlugin: cf3f4ae49f249dd785129346fd61bbc8433a88cf
+  Nuke: fa6f784c4f7e1c0f9313668510186c68b7af2509
+  SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
+  SDWebImageFLPlugin: 6c2295fb1242d44467c6c87dc5db6b0a13228fd8
 
-PODFILE CHECKSUM: b106a9ca63fe081796e531bb7c325172baa8c0ee
+PODFILE CHECKSUM: 05b2e727f82753048ee664f2bdd5c1f6c082da69
 
 COCOAPODS: 1.8.1

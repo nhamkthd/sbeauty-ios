@@ -18,7 +18,7 @@ class SButton: UIButton {
         // Drawing code
         self.roundRectColor = SColor().colorWithName(name: self.buttonStyle);
         switch self.buttonStyle {
-        case .info?, .pimary?, .success?:
+        case .info?, .pimary?, .success?, .secondary?:
             self.tintColor = .white;
             break;
         default:

@@ -78,6 +78,8 @@ class RestManager {
             }
             
             let sessionConfiguration = URLSessionConfiguration.default
+            sessionConfiguration.timeoutIntervalForRequest = 20
+            sessionConfiguration.timeoutIntervalForResource = 60;
             let session = URLSession(configuration: sessionConfiguration)
             let task = session.dataTask(with: request) { (data, response, error) in
                 completion(Results(withData: data,

@@ -13,11 +13,23 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated:true);
+         self.navigationController?.navigationBar.tintColor = SColor().colorWithName(name: .pimary)
+        self.navigationItem.title  = "Khách hàng";
         
         // Do any additional setup after loading the view.
     }
     
-
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item == (self.tabBar.items!)[0] {
+//            self.navigationItem.title  = "Phiếu điều trị";
+             self.navigationItem.title  = "Khách hàng";
+        }else  if item == (self.tabBar.items!)[1] {
+            self.navigationItem.title  = "Cài đặt";
+//            self.navigationItem.title  = "Khách hàng";
+        } else  if item == (self.tabBar.items!)[2] {
+            self.navigationItem.title  = "Cài đặt";
+        }
+    }
     /*
     // MARK: - Navigation
 

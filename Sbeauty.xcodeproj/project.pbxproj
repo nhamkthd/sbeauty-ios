@@ -8,8 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		2114795423581D19004644F5 /* ImageZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2114795323581D19004644F5 /* ImageZoomView.swift */; };
+		21159FAC238199770082BD9D /* TreatmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21159FAB238199770082BD9D /* TreatmentTableViewCell.swift */; };
 		21196CCB2356146D00F69287 /* PhotoContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21196CCA2356146D00F69287 /* PhotoContainerViewController.swift */; };
+		21345329237D8A9B00BEC1DB /* Treatments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21345328237D8A9B00BEC1DB /* Treatments.swift */; };
 		213FE4552354AD99002EC569 /* PhotoPageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */; };
+		21444E9723856FA000EA1491 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21444E9623856FA000EA1491 /* ChangePasswordViewController.swift */; };
+		2150ED29238A3D450057303C /* TreatmentDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2150ED28238A3D450057303C /* TreatmentDetailTableViewController.swift */; };
+		2150ED2B238A3EF00057303C /* TreatmentServiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2150ED2A238A3EF00057303C /* TreatmentServiceTableViewCell.swift */; };
 		2180FB51237C4CD8005FC682 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2180FB50237C4CD8005FC682 /* SettingsViewController.swift */; };
 		2180FB53237C4D30005FC682 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2180FB52237C4D30005FC682 /* SettingsSection.swift */; };
 		2180FB56237C4D3A005FC682 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2180FB54237C4D3A005FC682 /* SettingsCell.swift */; };
@@ -48,8 +53,13 @@
 /* Begin PBXFileReference section */
 		0BC6D6F69CB7926053A9AB42 /* Pods_Sbeauty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sbeauty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2114795323581D19004644F5 /* ImageZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
+		21159FAB238199770082BD9D /* TreatmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentTableViewCell.swift; sourceTree = "<group>"; };
 		21196CCA2356146D00F69287 /* PhotoContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContainerViewController.swift; sourceTree = "<group>"; };
+		21345328237D8A9B00BEC1DB /* Treatments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Treatments.swift; sourceTree = "<group>"; };
 		213FE4532354AD99002EC569 /* PhotoPageContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPageContainerViewController.swift; sourceTree = "<group>"; };
+		21444E9623856FA000EA1491 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		2150ED28238A3D450057303C /* TreatmentDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentDetailTableViewController.swift; sourceTree = "<group>"; };
+		2150ED2A238A3EF00057303C /* TreatmentServiceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreatmentServiceTableViewCell.swift; sourceTree = "<group>"; };
 		2180FB50237C4CD8005FC682 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2180FB52237C4D30005FC682 /* SettingsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
 		2180FB54237C4D3A005FC682 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -100,6 +110,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2150ED27238A3D0C0057303C /* Treatments */ = {
+			isa = PBXGroup;
+			children = (
+				2150ED28238A3D450057303C /* TreatmentDetailTableViewController.swift */,
+			);
+			path = Treatments;
+			sourceTree = "<group>";
+		};
 		21F74C60234F0718000C60A0 = {
 			isa = PBXGroup;
 			children = (
@@ -126,11 +144,13 @@
 				21F74C80234F0747000C60A0 /* RestApi */,
 				21F74C7F234F0740000C60A0 /* Models */,
 				21F74C7E234F0732000C60A0 /* CustomViews */,
+				2150ED27238A3D0C0057303C /* Treatments */,
 				21F74C92234F1EBA000C60A0 /* Customers */,
 				21F74C6C234F0718000C60A0 /* AppDelegate.swift */,
 				21F74C90234F1E86000C60A0 /* MainViewController.swift */,
 				21F74C6E234F0718000C60A0 /* ViewController.swift */,
 				2180FB50237C4CD8005FC682 /* SettingsViewController.swift */,
+				21444E9623856FA000EA1491 /* ChangePasswordViewController.swift */,
 				2180FB5C237C5E1B005FC682 /* TreatmentsTableViewController.swift */,
 				21F74C70234F0718000C60A0 /* Main.storyboard */,
 				21F74C73234F0719000C60A0 /* Assets.xcassets */,
@@ -154,6 +174,8 @@
 				21F618C423669E2B00D5A373 /* CustomerServiceTableViewCell.swift */,
 				21EB128823531A1A0092E9B8 /* CustomerTableViewCell.swift */,
 				2114795323581D19004644F5 /* ImageZoomView.swift */,
+				21159FAB238199770082BD9D /* TreatmentTableViewCell.swift */,
+				2150ED2A238A3EF00057303C /* TreatmentServiceTableViewCell.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -165,6 +187,7 @@
 				21F74C83234F0784000C60A0 /* Customers.swift */,
 				21F74C8B234F17D8000C60A0 /* Auth.swift */,
 				2180FB5A237C538D005FC682 /* Employees.swift */,
+				21345328237D8A9B00BEC1DB /* Treatments.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -344,6 +367,7 @@
 				21ECAA1E2350D029001D2DA3 /* PhotoCollectionViewCell.swift in Sources */,
 				2180FB5B237C538D005FC682 /* Employees.swift in Sources */,
 				21F74C6D234F0718000C60A0 /* AppDelegate.swift in Sources */,
+				21159FAC238199770082BD9D /* TreatmentTableViewCell.swift in Sources */,
 				21F74C82234F0763000C60A0 /* RestApiManager.swift in Sources */,
 				213FE4552354AD99002EC569 /* PhotoPageContainerViewController.swift in Sources */,
 				21F74C9A23501A92000C60A0 /* SColors.swift in Sources */,
@@ -352,15 +376,19 @@
 				21196CCB2356146D00F69287 /* PhotoContainerViewController.swift in Sources */,
 				21F74C9C23501C48000C60A0 /* Enums.swift in Sources */,
 				2180FB56237C4D3A005FC682 /* SettingsCell.swift in Sources */,
+				21345329237D8A9B00BEC1DB /* Treatments.swift in Sources */,
 				21F74CA023504195000C60A0 /* Authentication.swift in Sources */,
 				21A536F62355D3C7009DA903 /* ViewPhotoViewController.swift in Sources */,
 				21F74C94234F1EDD000C60A0 /* CustomerTableViewController.swift in Sources */,
 				21F74C8C234F17D8000C60A0 /* Auth.swift in Sources */,
+				2150ED29238A3D450057303C /* TreatmentDetailTableViewController.swift in Sources */,
 				2114795423581D19004644F5 /* ImageZoomView.swift in Sources */,
+				2150ED2B238A3EF00057303C /* TreatmentServiceTableViewCell.swift in Sources */,
 				21EB128923531A1A0092E9B8 /* CustomerTableViewCell.swift in Sources */,
 				21F74C91234F1E86000C60A0 /* MainViewController.swift in Sources */,
 				21F74C9E2350230D000C60A0 /* Constants.swift in Sources */,
 				21F74C84234F0784000C60A0 /* Customers.swift in Sources */,
+				21444E9723856FA000EA1491 /* ChangePasswordViewController.swift in Sources */,
 				2180FB51237C4CD8005FC682 /* SettingsViewController.swift in Sources */,
 				2180FB53237C4D30005FC682 /* SettingsSection.swift in Sources */,
 				218B0AD723570B7B00D44447 /* PhotosCollectionViewController.swift in Sources */,
@@ -513,14 +541,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KREB2MXHVA;
+				DEVELOPMENT_TEAM = J44HB5W728;
 				INFOPLIST_FILE = Sbeauty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sbeauty.app;
+				MARKETING_VERSION = 1.08;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sbeauty.beta.app;
 				PRODUCT_NAME = SBeauty;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -535,14 +564,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KREB2MXHVA;
+				DEVELOPMENT_TEAM = J44HB5W728;
 				INFOPLIST_FILE = Sbeauty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sbeauty.app;
+				MARKETING_VERSION = 1.08;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sbeauty.beta.app;
 				PRODUCT_NAME = SBeauty;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

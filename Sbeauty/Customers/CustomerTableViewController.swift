@@ -15,7 +15,7 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
     let auth = SAuthentication();
     let spinerView = SpinnerViewController();
     var customers:[Customer]?;
-    let searchController = UISearchController(searchResultsController: nil)
+    var searchController = UISearchController()
     var lastKnowContentOfsset:CGFloat = 0;
     var lastPage:Int! = 1;
     var page:Int! = 1;
@@ -25,17 +25,19 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
         searchController.searchResultsUpdater = self;
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.delegate = self;
-        
-        if #available(iOS 11.0, *) {
-            // For iOS 11 and later, place the search bar in the navigation bar.
-            navigationItem.searchController = searchController
+        self.searchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.searchResultsUpdater = self;
+            controller.searchBar.autocapitalizationType = .none
+            controller.searchBar.delegate = self;
+            self.tableView.tableHeaderView = controller.searchBar
             
-            // Make the search bar always visible.
-            navigationItem.hidesSearchBarWhenScrolling = false
-        } else {
-            // For iOS 10 and earlier, place the search controller's search bar in the table view's header.
-            tableView.tableHeaderView = searchController.searchBar
-        }
+            return controller
+            
+        })()
 
         getListCustomers(search: nil);
     }
@@ -76,7 +78,7 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
                     if let data = results.data{
                         do {
                             let decoder = JSONDecoder()
-                            let getCustomerData = try! decoder.decode(GetListCutomersData.self, from: data)
+                            let getCustomerData = try decoder.decode(GetListCutomersData.self, from: data)
                             
                             if self.page ?? 1 > 1 {
                                 self.customers?.append(contentsOf: getCustomerData.data!.data)
@@ -87,6 +89,16 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
                             DispatchQueue.main.async {
                                 self.tableView.reloadData();
                                 self.removeSpiner();
+                            }
+                        } catch {
+                            DispatchQueue.main.async {
+                                self.removeSpiner();
+                                let alertController = UIAlertController(title: "Alert", message: "Oops...something went wrong!.", preferredStyle: .alert)
+                                let action1 = UIAlertAction(title: "Ok", style: .default) { (action:UIAlertAction) in
+                                    print("You've pressed ok");
+                                }
+                                alertController.addAction(action1);
+                                self.present(alertController, animated: true, completion: nil)
                             }
                         }
                     }
@@ -161,7 +173,7 @@ class CustomerTableViewController: UITableViewController, UISearchControllerDele
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
-        if searchText.count > 2  || searchText.count == 0 {
+        if searchText.count > 1  || searchText.count == 0 {
             self.page = 1;
             self.getListCustomers(search: searchText)
         }
